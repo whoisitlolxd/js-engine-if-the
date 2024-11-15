@@ -3922,8 +3922,23 @@ class PlayState extends MusicBeatState
 					if (ClientPrefs.fastNoteSpawn) (unspawnNotes[notesAddedCount].isSustainNote ? sustainNotes : notes).spawnNote(unspawnNotes[notesAddedCount]);
 					else
 					{
-						spawnedNote = (unspawnNotes[notesAddedCount].isSustainNote ? sustainNotes : notes).recycle(Note);
-						spawnedNote.setupNoteData(unspawnNotes[notesAddedCount]);
+						if (!ClientPrefs.coolNoteCap)
+						{
+							if (notesAddedCount < 256) // yup
+							{
+								spawnedNote = (unspawnNotes[notesAddedCount].isSustainNote ? sustainNotes : notes).recycle(Note);
+								spawnedNote.setupNoteData(unspawnNotes[notesAddedCount]);
+								// i'm not sure if this actually works tbh. i'm just adding this for the sake of my computer
+								// by the way i ain't compiling shit myself alright I HAVE LIKE LESS THAN 10 GB OF SPACE LEFT ON THIS STUPID COMPUTER AHHHHH I CAN'T FIND THE OTHER ONE I DON'T WANT TO INSTALL ALL THESE DUMBASS DEPENDENCIES FOR A GAME THAT IS JUST ~1 GB OF SPACE
+								// thanks for listening. i hate coding. i only know lua and c# decently so far i am going to strangle someone i swear to god
+								// - 99whois
+							}
+						}
+						else // stupit
+						{
+							spawnedNote = (unspawnNotes[notesAddedCount].isSustainNote ? sustainNotes : notes).recycle(Note);
+							spawnedNote.setupNoteData(unspawnNotes[notesAddedCount]);
+						}
 					}
 					if (!ClientPrefs.noSpawnFunc) callOnLuas('onSpawnNote', [(!unspawnNotes[notesAddedCount].isSustainNote ? notes.members.indexOf(notes.members[0]) : sustainNotes.members.indexOf(sustainNotes.members[0])), unspawnNotes[notesAddedCount].noteData, unspawnNotes[notesAddedCount].noteType, unspawnNotes[notesAddedCount].isSustainNote]);
 					notesAddedCount++;

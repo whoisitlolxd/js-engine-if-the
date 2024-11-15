@@ -3728,7 +3728,9 @@ class ChartingState extends MusicBeatState
 			// CURRENT SECTION
 			var beats:Float = getSectionBeats();
 			for (i in _song.notes[curSec].sectionNotes)
-			{
+			{	
+				if (curRenderedNotes.length < 256)
+				{
 				var note:Note = setupNoteData(i, false);
 				curRenderedNotes.add(note);
 				if (note.sustainLength > 0)
@@ -3751,6 +3753,7 @@ class ChartingState extends MusicBeatState
 				}
 				note.mustPress = _song.notes[curSec].mustHitSection;
 				if(i[1] > 3) note.mustPress = !note.mustPress;
+				}
 			}
 		}
 		}

@@ -106,6 +106,13 @@ class OptimizationSubState extends BaseOptionsMenu
 			false);
 		addOption(option);
 
+		var option:Option = new Option('256 note render limit', //Name
+			'If unchecked, self explanatory. How stupid are you to not know?\nWith this disabled, you can have more than 256 notes on screen.', //Description
+			'coolNoteCap', //Save data variable name
+			'bool', //Variable type
+			false); //Default value
+		addOption(option);
+
 		cameras = [FlxG.cameras.list[FlxG.cameras.list.length-1]];
 		
 		super();

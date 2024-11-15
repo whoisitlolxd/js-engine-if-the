@@ -121,6 +121,7 @@ class ClientPrefs { //default settings if it can't find a save file containing y
 	public static var noSkipFuncs:Bool = false;
 	public static var lessBotLag:Bool = false;
 	public static var fastNoteSpawn:Bool = false;
+	public static var coolNoteCap:Bool = false; // I'm lagging vro
 
 	//Secret Debug
 	public static var noGunsRNG:Bool = false;

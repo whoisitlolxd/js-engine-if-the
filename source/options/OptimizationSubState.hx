@@ -106,11 +106,29 @@ class OptimizationSubState extends BaseOptionsMenu
 			false);
 		addOption(option);
 
-		var option:Option = new Option('256 note render limit', //Name
-			'If unchecked, self explanatory. How stupid are you to not know?\nWith this disabled, you can have more than 256 notes on screen.', //Description
+		var option:Option = new Option('Note render limit', //Name
+			'If unchecked, self explanatory. How stupid are you to not know?\nWith this disabled, max note cap is disabled.', //Description
 			'coolNoteCap', //Save data variable name
 			'bool', //Variable type
 			false); //Default value
+		addOption(option);
+
+		var option:Option = new Option('Note render limit OLD', //Name
+			'Old version of the above option.', //Description
+			'coolNoteCap2', //Save data variable name
+			'bool', //Variable type
+			false); //Default value
+		addOption(option);
+
+		var option:Option = new Option('Max notes',
+			'The note limit.',
+			'maxNotes',
+			'int',
+			10);
+		option.scrollSpeed = 60;
+		option.minValue = 0;
+		option.maxValue = 69420;
+		option.displayFormat = '%v notes';
 		addOption(option);
 
 		cameras = [FlxG.cameras.list[FlxG.cameras.list.length-1]];

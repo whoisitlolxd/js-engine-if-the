@@ -19,7 +19,7 @@ class StartupState extends MusicBeatState
 	var logo:FlxSprite;
 	var skipTxt:FlxText;
 
-	var maxIntros:Int = 3;
+	var maxIntros:Int = 5; // 5 so adding rimon and wega
 
 	override public function create():Void
 	{
@@ -77,6 +77,24 @@ class StartupState extends MusicBeatState
 					logo.screenCenter();
 					FlxTween.tween(logo, {alpha: 1, "scale.x": 1, "scale.y": 1}, 1.35, {ease: FlxEase.expoOut, onComplete: _ -> onIntroDone(0.6)});
 				case 4:
+					// RIMON... hi cone!!!!!!!!!!!!!!!!!
+					FlxG.sound.play(Paths.sound('startup', 'splash'));
+					FlxG.sound.play(Paths.sound('evilLaugh', 'splash'));
+					logo.loadGraphic(Paths.image('RIMON', 'splash'));
+					logo.scale.set(0.1,0.1);
+					logo.updateHitbox();
+					logo.screenCenter();
+					FlxTween.tween(logo, {alpha: 1, "scale.x": 1, "scale.y": 1}, 1.35, {ease: FlxEase.expoOut, onComplete: _ -> onIntroDone()});
+				case 5:
+					// Wega
+					//FlxG.sound.play(Paths.sound('startup', 'splash'));
+					FlxG.sound.play(Paths.sound('wega scream', 'splash'));
+					logo.loadGraphic(Paths.image('wega', 'splash'));
+					logo.scale.set(0.1,0.1);
+					logo.updateHitbox();
+					logo.screenCenter();
+					FlxTween.tween(logo, {alpha: 1, "scale.x": 1, "scale.y": 1}, 1.35, {ease: FlxEase.expoOut, onComplete: _ -> onIntroDone()});
+				case 6:
 					#if VIDEOS_ALLOWED
 						var vidSprite = new MP4Handler(); // it plays but it doesn't show???
 						#if (hxCodec < "3.0.0")
@@ -95,7 +113,7 @@ class StartupState extends MusicBeatState
 						});
 						#end
 					#end
-				case 5:
+				case 7:
 					#if VIDEOS_ALLOWED
 						var vidSprite = new MP4Handler(); // it plays but it doesn't show???
 						#if (hxCodec < "3.0.0")

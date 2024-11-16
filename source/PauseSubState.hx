@@ -43,8 +43,9 @@ class PauseSubState extends MusicBeatSubstate
 	{
 		if(CoolUtil.difficulties.length < 2) menuItemsOG.remove('Change Difficulty'); //No need to change difficulty if there is only one!
 
-		if(botplayLockout) menuItemsOG.remove('Toggle Botplay'); //you cant toggle it on MWAHAHAHAHAHA
-
+		//if(botplayLockout) menuItemsOG.remove('Toggle Botplay'); //you cant toggle it on MWAHAHAHAHAHA
+		// haha even more cheating !
+		
 		if(PlayState.chartingMode)
 		{
 			menuItemsOG.insert(2, 'Leave Charting Mode');
@@ -58,6 +59,11 @@ class PauseSubState extends MusicBeatSubstate
 			menuItemsOG.insert(3 + num, 'End Song');
 			menuItemsOG.insert(4 + num, 'Toggle Practice Mode');
 			menuItemsOG.insert(5 + num, 'Toggle Botplay');
+		}
+		else
+		{
+			menuItemsOG.insert(2, 'Enter Charting Mode');
+			menuItemsOG.insert(3, 'Toggle Botplay');
 		}
 		menuItems = menuItemsOG;
 
@@ -266,6 +272,9 @@ class PauseSubState extends MusicBeatSubstate
 				case "Leave Charting Mode":
 					restartSong();
 					PlayState.chartingMode = false;
+				case "Enter Charting Mode":
+					restartSong();
+					PlayState.chartingMode = true;
 				case 'Skip Time':
 					if(curTime < Conductor.songPosition)
 					{
@@ -312,6 +321,7 @@ class PauseSubState extends MusicBeatSubstate
 					}
 				case "Exit":
 				if (FlxG.random.int(0, 999) == 10) menuItemsExit = ['Exit To Your Mother'];
+				// jordan i hate you for this /hj - 99whois
 				menuItems = menuItemsExit;
 				regenMenu();
 				}
@@ -336,7 +346,7 @@ class PauseSubState extends MusicBeatSubstate
 					PlayState.seenCutscene = false;
 
 					WeekData.loadTheFirstEnabledMod();
-						FlxG.switchState(MainMenuState.new);
+					FlxG.switchState(MainMenuState.new);
 					FlxG.sound.playMusic(Paths.music('freakyMenu-' + ClientPrefs.daMenuMusic));
 					PlayState.changedDifficulty = false;
 					PlayState.chartingMode = false;

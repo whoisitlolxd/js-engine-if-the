@@ -124,11 +124,18 @@ class OptimizationSubState extends BaseOptionsMenu
 			'The note limit.',
 			'maxNotes',
 			'int',
-			10);
+			256);
 		option.scrollSpeed = 60;
 		option.minValue = 0;
-		option.maxValue = 69420;
-		option.displayFormat = '%v notes';
+		option.maxValue = 694209900;
+		option.displayFormat = '%v note(s)';
+		addOption(option);
+
+		var option:Option = new Option('Run note thing before note update', //Name
+			'Enable this to PROBABLY fix the limiter.\nI don\'t even know.', //Description
+			'runNoteThingBefore', //Save data variable name
+			'bool', //Variable type
+			true); //Default value
 		addOption(option);
 
 		cameras = [FlxG.cameras.list[FlxG.cameras.list.length-1]];

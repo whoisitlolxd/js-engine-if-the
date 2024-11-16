@@ -3970,6 +3970,7 @@ class PlayState extends MusicBeatState
 					playerDance();
 				}
 				amountOfRenderedNotes = 0;
+				actualRenderedNotes = 0;
 				for (group in [notes, sustainNotes])
 				{
 					group.forEach(function(daNote)

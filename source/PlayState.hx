@@ -3922,9 +3922,9 @@ class PlayState extends MusicBeatState
 					if (ClientPrefs.fastNoteSpawn) (unspawnNotes[notesAddedCount].isSustainNote ? sustainNotes : notes).spawnNote(unspawnNotes[notesAddedCount]);
 					else
 					{
-						if (!ClientPrefs.coolNoteCap)
+						if (ClientPrefs.coolNoteCap)
 						{
-							if (notesAddedCount < 256) // yup
+							if (notesAddedCount < ClientPrefs.maxNotes && notes.length < ClientPrefs.maxNotes && amountOfRenderedNotes < ClientPrefs.maxNotes) // yum...
 							{
 								spawnedNote = (unspawnNotes[notesAddedCount].isSustainNote ? sustainNotes : notes).recycle(Note);
 								spawnedNote.setupNoteData(unspawnNotes[notesAddedCount]);
@@ -3932,6 +3932,14 @@ class PlayState extends MusicBeatState
 								// by the way i ain't compiling shit myself alright I HAVE LIKE LESS THAN 10 GB OF SPACE LEFT ON THIS STUPID COMPUTER AHHHHH I CAN'T FIND THE OTHER ONE I DON'T WANT TO INSTALL ALL THESE DUMBASS DEPENDENCIES FOR A GAME THAT IS JUST ~1 GB OF SPACE
 								// thanks for listening. i hate coding. i only know lua and c# decently so far i am going to strangle someone i swear to god
 								// - 99whois
+							}
+						}
+						else if (ClientPrefs.coolNoteCap2) // stupi3424782394u24i3uo23u4i424jif89fkds -1
+						{
+							if (notesAddedCount < ClientPrefs.maxNotes) // sigma
+							{
+								spawnedNote = (unspawnNotes[notesAddedCount].isSustainNote ? sustainNotes : notes).recycle(Note);
+								spawnedNote.setupNoteData(unspawnNotes[notesAddedCount]);
 							}
 						}
 						else // stupit

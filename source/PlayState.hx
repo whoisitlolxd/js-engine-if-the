@@ -3921,8 +3921,10 @@ class PlayState extends MusicBeatState
 			}
 			if (ClientPrefs.showNotes || !ClientPrefs.showNotes && !cpuControlled)
 			{
+				if (actualRenderedNotes < ClientPrefs.maxNotes)
+				{
 				while (unspawnNotes[notesAddedCount] != null && unspawnNotes[notesAddedCount].strumTime - Conductor.songPosition < (NOTE_SPAWN_TIME / unspawnNotes[notesAddedCount].multSpeed)) {
-					if (ClientPrefs.fastNoteSpawn) (unspawnNotes[notesAddedCount].isSustainNote ? sustainNotes : notes).spawnNote(unspawnNotes[notesAddedCount]);
+					if (ClientPrefs.fastNoteSpawn && actualRenderedNotes < ClientPrefs.maxNotes) (unspawnNotes[notesAddedCount].isSustainNote ? sustainNotes : notes).spawnNote(unspawnNotes[notesAddedCount]);
 					else
 					{
 						if (ClientPrefs.coolNoteCap)
@@ -3953,6 +3955,7 @@ class PlayState extends MusicBeatState
 					}
 					if (!ClientPrefs.noSpawnFunc) callOnLuas('onSpawnNote', [(!unspawnNotes[notesAddedCount].isSustainNote ? notes.members.indexOf(notes.members[0]) : sustainNotes.members.indexOf(sustainNotes.members[0])), unspawnNotes[notesAddedCount].noteData, unspawnNotes[notesAddedCount].noteType, unspawnNotes[notesAddedCount].isSustainNote]);
 					notesAddedCount++;
+				}
 				}
 			}
 			if (notesAddedCount > 0)
@@ -3996,7 +3999,7 @@ class PlayState extends MusicBeatState
 			}
 		}
 
-		if (!ClientPrefs.runNoteThingBefore) // this makes a bug which is i guess kind of interesting to watch?
+		if (!ClientPrefs.runNoteThingBefore) // yeah the funny bug!
 		{
 		skippedCount = 0;
 
@@ -4020,8 +4023,10 @@ class PlayState extends MusicBeatState
 			}
 			if (ClientPrefs.showNotes || !ClientPrefs.showNotes && !cpuControlled)
 			{
+				if (actualRenderedNotes < ClientPrefs.maxNotes)
+				{
 				while (unspawnNotes[notesAddedCount] != null && unspawnNotes[notesAddedCount].strumTime - Conductor.songPosition < (NOTE_SPAWN_TIME / unspawnNotes[notesAddedCount].multSpeed)) {
-					if (ClientPrefs.fastNoteSpawn) (unspawnNotes[notesAddedCount].isSustainNote ? sustainNotes : notes).spawnNote(unspawnNotes[notesAddedCount]);
+					if (ClientPrefs.fastNoteSpawn && actualRenderedNotes < ClientPrefs.maxNotes) (unspawnNotes[notesAddedCount].isSustainNote ? sustainNotes : notes).spawnNote(unspawnNotes[notesAddedCount]);
 					else
 					{
 						if (ClientPrefs.coolNoteCap)
@@ -4052,6 +4057,7 @@ class PlayState extends MusicBeatState
 					}
 					if (!ClientPrefs.noSpawnFunc) callOnLuas('onSpawnNote', [(!unspawnNotes[notesAddedCount].isSustainNote ? notes.members.indexOf(notes.members[0]) : sustainNotes.members.indexOf(sustainNotes.members[0])), unspawnNotes[notesAddedCount].noteData, unspawnNotes[notesAddedCount].noteType, unspawnNotes[notesAddedCount].isSustainNote]);
 					notesAddedCount++;
+				}
 				}
 			}
 			if (notesAddedCount > 0)

@@ -18,6 +18,7 @@ class StartupState extends MusicBeatState
 {
 	var logo:FlxSprite;
 	var skipTxt:FlxText;
+	var alreadyPressed:Bool = false;
 
 	var maxIntros:Int = 5; // 5 so adding rimon and wega
 
@@ -150,7 +151,20 @@ class StartupState extends MusicBeatState
 
 	override function update(elapsed:Float)
 	{
-		if (FlxG.keys.justPressed.ENTER) FlxG.switchState(TitleState.new);
+		if (FlxG.keys.justPressed.ENTER && !alreadyPressed)
+		{
+			// hi neil staff if any of you are reading this
+			// here's a special message
+			// FUCK YO- /j
+			// no niko i won't remove this
+			// - 99whois
+			logo.loadGraphic(Paths.image('BECAUSE SPRUNKI KILLED MY GRANDMA OKAY', 'splash')); // BECAUSE SPRUNKI KILLED MY GRANDMA OKAY
+			alreadyPressed = true;
+			FlxG.sound.play(Paths.sound('GET OUT', 'splash'));
+			new FlxTimer().start(0.1, function(tmr:FlxTimer) {
+				FlxG.switchState(TitleState.new);
+			});
+		}
 		super.update(elapsed);
 	}
 }

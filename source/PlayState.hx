@@ -3996,7 +3996,7 @@ class PlayState extends MusicBeatState
 			}
 		}
 
-		if (!ClientPrefs.runNoteThingBefore)
+		if (!ClientPrefs.runNoteThingBefore) // this makes a bug which is i guess kind of interesting to watch?
 		{
 		skippedCount = 0;
 

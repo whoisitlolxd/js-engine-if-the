@@ -1,3 +1,10 @@
+1.38.1;
+
+Fixed Popups not disappearing correctly if Combo Stacking was turned on
+Opponent note hits no longer count twice.
+Alt Animations (or notes with an anim suffix) now work
+When strums are spawning, they will now always spawn quickly enough before the song starts.
+
 1.38.0;
 
 (!) Weekend 1 has been added! (WIP + there's some issues)

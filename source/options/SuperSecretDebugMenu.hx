@@ -101,6 +101,7 @@ class SuperSecretDebugMenu extends BaseOptionsMenu
                         "there may be something left unsaved. Are you really really really sure?",
                         "i think they want me to stfu",
                         "yeah they do.",
+			"GET OU",
                         "really really really sure????",
                         "really sure? last warning",
                         "i lied MUAHAHHAHAHAHAHAA",
@@ -109,11 +110,17 @@ class SuperSecretDebugMenu extends BaseOptionsMenu
                         "are you sure?",
                         "Fredbear's Family Diner William Afton and Henry opened in 1967 the family friendly Fredbear's Family Diner, featuring a brown furry suit of a bear as a mascot. Henry would usually wear the suit, as they didn't have enough money to hire someone to do the job for a long time and they were studying at the time. William studied engineering and Henry business adminstration and communication. William met an unnamed woman, with whom he married and three years later had a boy challed Michael. They met in the court; William was being charged for murdering a child that allegedly was crying outside the Diner for being scared of Fredbear, the bear, and she was working selling hot-dogs in from of the building.",
                         "im not funny",
+			"Yeah me neither - 99whois",
                         "mfw",
                         "how did you even find this option",
+			"um i think by pressing debug7",
+			"shut the hell up no one told you to say how to get here.",
+			"okay sorry :(",
+			"alright as I was saying.",
                         "what have you done to get here",
                         "anyways",
-                        "are you sure?"
+                        "are you sure?",
+			"DEAD SERIOUS NOW, no jokes here - are you sure?"
                     ];
     var nextMessage:Void->Void = null;
     

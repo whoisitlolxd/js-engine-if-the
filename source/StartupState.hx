@@ -85,10 +85,10 @@ class StartupState extends MusicBeatState
 					logo.scale.set(0.1,0.1);
 					logo.updateHitbox();
 					logo.screenCenter();
-					FlxTween.tween(logo, {alpha: 1, "scale.x": 1, "scale.y": 1}, 1.35, {ease: FlxEase.expoOut, onComplete: _ -> onIntroDone()});
+					FlxTween.tween(logo, {alpha: 1, "scale.x": 0.75, "scale.y": 0.75}, 1.35, {ease: FlxEase.expoOut, onComplete: _ -> onIntroDone()});
 				case 5:
 					// Wega
-					//FlxG.sound.play(Paths.sound('startup', 'splash'));
+					FlxG.sound.play(Paths.sound('startup', 'splash'));
 					FlxG.sound.play(Paths.sound('wega scream', 'splash'));
 					logo.loadGraphic(Paths.image('wega', 'splash'));
 					logo.scale.set(0.1,0.1);
@@ -153,17 +153,27 @@ class StartupState extends MusicBeatState
 	{
 		if (FlxG.keys.justPressed.ENTER && !alreadyPressed)
 		{
-			// hi neil staff if any of you are reading this
-			// here's a special message
-			// FUCK YO- /j
-			// no niko i won't remove this
-			// - 99whois
-			logo.loadGraphic(Paths.image('BECAUSE SPRUNKI KILLED MY GRANDMA OKAY', 'splash')); // BECAUSE SPRUNKI KILLED MY GRANDMA OKAY
+			var skibidy:Int = FlxG.random.int(1, 10);
 			alreadyPressed = true;
-			FlxG.sound.play(Paths.sound('GET OUT', 'splash'));
-			new FlxTimer().start(0.1, function(tmr:FlxTimer) {
-				FlxG.switchState(TitleState.new);
-			});
+			if (skibidy > 7)
+			{
+				// hi neil staff if any of you are reading this
+				// here's a special message
+				// FUCK YO- /j
+				// no niko i won't remove this
+				// - 99whois
+				logo.loadGraphic(Paths.image('BECAUSE SPRUNKI KILLED MY GRANDMA OKAY', 'splash')); // BECAUSE SPRUNKI KILLED MY GRANDMA OKAY
+				logo.updateHitbox();
+				logo.screenCenter();
+				FlxG.sound.play(Paths.sound('GET OUT', 'splash'));
+				new FlxTimer().start(0.25, function(tmr:FlxTimer) {
+					FlxG.switchState(TitleState.new);
+				});
+			}
+			else
+			{
+				FlxG.switchState(TitleState.new); // rizz
+			}
 		}
 		super.update(elapsed);
 	}

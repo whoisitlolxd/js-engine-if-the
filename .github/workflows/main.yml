@@ -180,8 +180,8 @@ jobs:
           name: windowsBuild
           path: export/release/windows/bin
   buildMac:
-    runs-on: macos-12
-
+    runs-on: macos-13
+    # because it said it was deprecated and the job stuff failed... idk what to do with it
     steps:
       # Checks-out your repository under $GITHUB_WORKSPACE, so your job can access it
       - uses: actions/checkout@main

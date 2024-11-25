@@ -305,6 +305,8 @@ class ChartingState extends MusicBeatState
 		DiscordClient.changePresence("Chart Editor - Charting " + StringTools.replace(_song.song, '-', ' '), '${FlxStringUtil.formatMoney(CoolUtil.getNoteAmount(_song), false)} Notes');
 		#end
 
+		FlxG.autoPause = true; // this might help with some issues
+
 		vortex = FlxG.save.data.chart_vortex;
 		showTheGrid = FlxG.save.data.showGrid;
 		idleMusicAllow = FlxG.save.data.idleMusicAllowed;
@@ -4370,6 +4372,12 @@ class ChartingState extends MusicBeatState
 
 		    super.destroy();
 	    }
+
+	override function startOutro(onOutroComplete:()->Void):Void
+	{
+		FlxG.autoPause = ClientPrefs.autoPause;
+		onOutroComplete();
+	}
 }
 
 class AttachedFlxText extends FlxText

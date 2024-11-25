@@ -124,6 +124,7 @@ class ClientPrefs { //default settings if it can't find a save file containing y
 	public static var coolNoteCap2:Bool = false; // I'm lagging vro2 (old)
 	public static var maxNotes:Int = 256; // yum
 	public static var runNoteThingBefore:Bool = false; // yummmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmy
+	public static var screwTheNoteSorting:Bool = false; // FriCK...the note sorting
 
 	//Secret Debug
 	public static var noGunsRNG:Bool = false;

@@ -3731,7 +3731,7 @@ class ChartingState extends MusicBeatState
 			var beats:Float = getSectionBeats();
 			for (i in _song.notes[curSec].sectionNotes)
 			{	
-				if (curRenderedNotes.length < 256)
+				if (curRenderedNotes.length < ClientPrefs.maxNotes)
 				{
 				var note:Note = setupNoteData(i, false);
 				curRenderedNotes.add(note);
@@ -3794,12 +3794,15 @@ class ChartingState extends MusicBeatState
 				{
 					for (i in _song.notes[curSec+1].sectionNotes)
 					{
+						if (nextRenderedNotes.length < ClientPrefs.maxNotes)
+						{
 						var note:Note = setupNoteData(i, true);
 						note.alpha = 0.6;
 						nextRenderedNotes.add(note);
 						if (note.sustainLength > 0)
 						{
 							nextRenderedSustains.add(setupSusNote(note, beats));
+						}
 						}
 					}
 				}
@@ -4108,12 +4111,14 @@ class ChartingState extends MusicBeatState
 				default:
 					var beats:Float = getSectionBeats();
 					var note:Note = setupNoteData(curSelectedNote, false);
-					curRenderedNotes.add(note);
-					if (note.sustainLength > 0)
+					if (curRenderedNotes.length < ClientPrefs.maxNotes)
 					{
-						curRenderedSustains.add(setupSusNote(note, beats));
+						curRenderedNotes.add(note);
+						if (note.sustainLength > 0)
+						{
+							curRenderedSustains.add(setupSusNote(note, beats));
+						}
 					}
-
 					if(curSelectedNote[3] != null && note.noteType != null && note.noteType.length > 0) {
 						var typeInt:Null<Int> = noteTypeMap.get(curSelectedNote[3]);
 						var theType:String = '' + typeInt;

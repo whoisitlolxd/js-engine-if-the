@@ -445,14 +445,27 @@ class TitleState extends MusicBeatState
 	}
 
 	private var sickBeats:Int = 0; //Basically curBeat but won't be skipped if you hold the tab or resize the screen
+	private var sickBeats2:Int = 0; // basically i don't really want to use '%' i don't want to risk getting a crash i odn't know if i shoul d use it skfjfjksdhfjkdsifhw fhew78feh78wfh847fh3h uisfc - 99whois
 	public static var closedState:Bool = false;
 	override function beatHit()
 	{
 		super.beatHit();
+		sickBeats2++;
+		if (sickBeats2 > 1) sickBeats2 = 0; // what did i say earlier
+
+		switch (sickBeats2)
+		{
+			case 0:
+				FlxG.camera.angle += 5;
+			case 1:
+				FlxG.camera.angle -= 5;
+			default:
+				FlxG.camera.angle += 5;
+		}
 
 		FlxG.camera.zoom += 0.015;
 
-		FlxTween.tween(FlxG.camera, {zoom: 1}, Conductor.crochet / 1200, {ease: FlxEase.quadOut});
+		FlxTween.tween(FlxG.camera, {zoom: 1, angle: 0}, Conductor.crochet / 1200, {ease: FlxEase.quadOut});
 
 		if(logoBl != null)
 			logoBl.animation.play('bump', true);
@@ -485,6 +498,8 @@ class TitleState extends MusicBeatState
 					addMoreText('UltimateQuack', 15);
 					addMoreText('Shadow Mario', 15);
 					addMoreText('RiverOaken', 15);
+					addMoreText('', 15);
+					addMoreText('Modded by 99whois', 15);
 					#else
 					addMoreText('present');
 					#end
@@ -508,12 +523,13 @@ class TitleState extends MusicBeatState
 					addMoreText(curWacky[1]);
 				case 13:
 					deleteCoolText();
-				case 14:
 					addMoreText('Friday');
-				case 15:
+				case 14:
 					addMoreText('Night');
-				case 16:
+				case 15:
 					addMoreText('Funkin');
+				case 16:
+					addMoreText('Modded JS Engine'); // why did i add this? idk
 
 				case 17:
 					skipIntro();

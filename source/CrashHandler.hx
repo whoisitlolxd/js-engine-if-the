@@ -81,6 +81,7 @@ class CrashHandler
 		errorMessage += "Uncaught Error: " 
 			+ '$m\n$stackLabel'
 			+ "\nPlease report this error to the GitHub page: https://github.com/JordanSantiagoYT/FNF-JS-Engine"
+			+ "\n(or https://github.com/whoisitlolxd/js-engine-if-the ! this is where this dumb mod comes from.)"
 			+ "\nThe engine has saved a crash log inside the crash folder, If you're making a GitHub issue you might want to send that!";
 
 		#if sys

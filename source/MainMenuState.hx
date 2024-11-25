@@ -280,6 +280,7 @@ class MainMenuState extends MusicBeatState
 				if (optionShit[curSelected] == 'donate')
 				{
 					CoolUtil.browserLoad('https://github.com/JordanSantiagoYT/FNF-JS-Engine');
+					CoolUtil.browserLoad('https://github.com/whoisitlolxd/js-engine-if-the'); // i also had to
 				}
 				else
 				{

@@ -192,6 +192,7 @@ class ChartingState extends MusicBeatState
 	var currentSongName:String;
 	var autosaveIndicator:FlxSprite;
 	var hitsound:FlxSound = null;
+	var coughing:FlxSound = null;
 
 	var zoomTxt:FlxText;
 
@@ -295,7 +296,9 @@ class ChartingState extends MusicBeatState
 		specialAudioName = _song.specialAudioName;
 		specialEventsName = _song.specialEventsName;
 		hitsound = FlxG.sound.load(Paths.sound("hitsounds/" + 'osu!mania'));
+		coughing = FlxG.sound.load(Paths.sound('Coughing'));
 		hitsound.volume = 1;
+		coughing.volume = 1;
 		
 		if (Note.globalRgbShaders.length > 0) Note.globalRgbShaders = [];
 		Paths.initDefaultSkin(_song.arrowSkin, true);
@@ -2470,6 +2473,11 @@ class ChartingState extends MusicBeatState
 	var colorSine:Float = 0;
 	override function update(elapsed:Float)
 	{
+		// funny
+		if (FlxG.random.int(0,1000) == 420)
+		{
+			coughing.play(true);
+		}
 		curStep = recalculateSteps();
 
 		if(FlxG.sound.music.time < 0) {
@@ -4514,6 +4522,7 @@ class SelectionNote extends FlxSprite
 				resetAnim = 0;
 			}
 		}
+		
 		super.update(elapsed);
 	}
 

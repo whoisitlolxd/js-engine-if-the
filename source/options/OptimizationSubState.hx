@@ -100,35 +100,44 @@ class OptimizationSubState extends BaseOptionsMenu
 		addOption(option);
 
 		var option:Option = new Option('Note render limit', //Name
-			'If unchecked, self explanatory. How stupid are you to not know?\nWith this disabled, max note cap is disabled.', //Description
+			'If checked, self explanatory. How stupid are you to not know?\nWith this disabled, max note cap is disabled.', //Description
 			'coolNoteCap', //Save data variable name
 			'bool', //Variable type
 			false); //Default value
 		addOption(option);
 
-		var option:Option = new Option('Note render limit OLD', //Name
+		/*var option:Option = new Option('Note render limit OLD', //Name
 			'Old version of the above option.', //Description
 			'coolNoteCap2', //Save data variable name
 			'bool', //Variable type
 			false); //Default value
 		addOption(option);
+		// unused
+		*/
 
 		var option:Option = new Option('Max notes',
-			'The note limit.',
+			'The note limit.\nWorks ONLY if the above option is enabled.\nForce-enabled in the chart editor, will be fixed in the future.',
 			'maxNotes',
 			'int',
 			256);
-		option.scrollSpeed = 60;
+		option.scrollSpeed = 600;
 		option.minValue = 0;
-		option.maxValue = 694209900;
+		option.maxValue = 694209924;
 		option.displayFormat = '%v note(s)';
 		addOption(option);
 
-		var option:Option = new Option('Run note thing before note update', //Name
-			'Enable this to PROBABLY fix the limiter.\nI don\'t even know.', //Description
+		var option:Option = new Option('runNoteThingBeforeUpdate', //Name
+			'Keep this on if you don\'t want buggy or randomly appearing notes.\nIt\'s kinda funny though.', //Description
 			'runNoteThingBefore', //Save data variable name
 			'bool', //Variable type
 			true); //Default value
+		addOption(option);
+
+		var option:Option = new Option('Disable note sorting', //Name
+			'Keep this on if you don\'t want buggy notes.\nIt\'s kinda funny though.', //Description
+			'screwTheNoteSorting', //Save data variable name
+			'bool', //Variable type
+			false); //Default value
 		addOption(option);
 
 		cameras = [FlxG.cameras.list[FlxG.cameras.list.length-1]];

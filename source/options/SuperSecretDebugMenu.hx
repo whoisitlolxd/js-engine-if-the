@@ -88,6 +88,16 @@ class SuperSecretDebugMenu extends BaseOptionsMenu
 
 		super();
 	}
+
+	override function update(elapsed:Float)
+	{
+		// funny
+		if (FlxG.random.int(0,1000) == 420)
+		{
+			FlxG.sound.play(Paths.sound('Coughing'), 1);
+		}
+	}
+	
 	function crashDaEngine():Void {
                     var i:Int = -1;
                     var messages = [
@@ -113,10 +123,10 @@ class SuperSecretDebugMenu extends BaseOptionsMenu
 			"Yeah me neither - 99whois",
                         "mfw",
                         "how did you even find this option",
-			"um i think by pressing debug7",
-			"shut the hell up no one told you to say how to get here.",
+			"um i think by typing in debug7...?",
+			"shut the hell up. no one told you to say how to get here.",
 			"okay sorry :(",
-			"alright as I was saying.",
+			"alright. as I was saying.",
                         "what have you done to get here",
                         "anyways",
                         "are you sure?",

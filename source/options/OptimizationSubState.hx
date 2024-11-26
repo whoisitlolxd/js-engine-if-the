@@ -134,7 +134,7 @@ class OptimizationSubState extends BaseOptionsMenu
 		addOption(option);
 
 		var option:Option = new Option('Disable note sorting', //Name
-			'Keep this on if you don\'t want buggy notes.\nIt\'s kinda funny though.', //Description
+			'Self explanatory.\nif you still don\'t know then how stupid are you LOL\n- 99whois', //Description
 			'screwTheNoteSorting', //Save data variable name
 			'bool', //Variable type
 			false); //Default value

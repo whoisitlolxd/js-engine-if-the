@@ -170,6 +170,9 @@ class ClientPrefs { //default settings if it can't find a save file containing y
 	public static var alwaysTriggerCutscene:Bool = false;
 	public static var disableSplash:Bool = false;
 
+	//Fun
+	public static var Lanky:Bool = false;
+
 	//Gameplay Modifiers
 	public static var gameplaySettings:Map<String, Dynamic> = [
 		'scrollspeed' => 1.0,

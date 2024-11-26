@@ -12,24 +12,20 @@ class FunSettingsSubstate extends BaseOptionsMenu
 		title = 'Fun';
 		rpcTitle = 'Fun Settings Menu'; //for Discord Rich Presence
 
-		//I'd suggest using "Chars & BG" as an example for making your own option since it is the simplest here
 		var option:Option = new Option('Lanky', //Name
 			'Button', //Description
 			'Lanky', //Save data variable name
 			'bool', //Variable type
 			true); //Default value
 		option.onChange = function() {
-			if (!sigma)
-			{
-				ClientPrefs.Lanky = true;
-				sigma = true;
-				logo.alpha = 1;
-				FlxG.sound.play(Paths.sound('lankybox jumpscare', 'funny'));
-				new FlxTimer().start(1, function(tmr:FlxTimer) {
-					logo.alpha = 0;
-					sigma = false;
-				});
-			}
+			ClientPrefs.Lanky = true;
+			sigma = true;
+			logo.alpha = 1;
+			FlxG.sound.play(Paths.sound('lankybox jumpscare', 'funny'));
+			new FlxTimer().start(1, function(tmr:FlxTimer) {
+				logo.alpha = 0;
+				sigma = false;
+			});
 		}
 		addOption(option);
 

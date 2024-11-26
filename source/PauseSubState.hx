@@ -22,7 +22,7 @@ class PauseSubState extends MusicBeatSubstate
 	var grpMenuShit:FlxTypedGroup<Alphabet>;
 
 	var menuItems:Array<String> = [];
-	var menuItemsOG:Array<String> = ['Resume', 'Restart Song', 'Change Gameplay Settings', 'Change Difficulty', 'Options', 'Exit'];
+	var menuItemsOG:Array<String> = ['Resume', 'Restart Song', 'Change Gameplay Settings', 'Change Difficulty', 'Options', 'Exit', (PlayState.isStoryMode ? 'Exit to Story Menu' : 'Exit to Freeplay')];
 	var menuItemsExit:Array<String> = [(PlayState.isStoryMode ? 'Exit to Story Menu' : 'Exit to Freeplay'), 'Exit to Main Menu', 'Exit Game', 'Back'];
 	var difficultyChoices = [];
 	var curSelected:Int = 0;
@@ -153,6 +153,11 @@ class PauseSubState extends MusicBeatSubstate
 	var cantUnpause:Float = 0.1;
 	override function update(elapsed:Float)
 	{
+		// funny
+		if (FlxG.random.int(0,1000) == 420)
+		{
+			FlxG.sound.play(Paths.sound('Coughing'), 1);
+		}
 		if(requireRestart) {
 			menuItemsOG.remove('Resume'); //technically that's the logical thing to do
 			regenMenu();
@@ -319,11 +324,33 @@ class PauseSubState extends MusicBeatSubstate
 						FlxTween.tween(FlxG.sound.music, {volume: 1}, 0.8);
 						FlxG.sound.music.time = pauseMusic.time;
 					}
+				case "Exit to Story Menu", "Exit to Freeplay":
+					PlayState.deathCounter = 0;
+					PlayState.seenCutscene = false;
+
+					WeekData.loadTheFirstEnabledMod();
+					if(PlayState.isStoryMode) {
+						FlxG.switchState(StoryMenuState.new);
+					} else if (!PlayState.isStoryMode) {
+						FlxG.switchState(FreeplayState.new);
+					}
+					FlxG.sound.playMusic(Paths.music('freakyMenu-' + ClientPrefs.daMenuMusic));
+					PlayState.changedDifficulty = false;
+					PlayState.chartingMode = false;
 				case "Exit":
-				if (FlxG.random.int(0, 999) == 10) menuItemsExit = ['Exit To Your Mother'];
+					if (FlxG.random.int(0, 999) == 10)
+					{
+						menuItemsExit = ['Exit To Your Mother',' ','HEY','99whois here','don\'t touch','the option above','unless you want','your game to crash','SERIOUSLY',' ','Back'];
+					}
+					else // revert this if you want i don't care.
+					{
+						menuItemsExit = [(PlayState.isStoryMode ? 'Exit to Story Menu' : 'Exit to Freeplay'), 'Exit to Main Menu', 'Exit Game', 'Back'];
+					}
+					menuItems = menuItemsExit;
+					regenMenu();
+				default:
+					CoolUtil.coolError("Invalid option.\nIt will not do anything to prevent a crash or whatever the hell could happen.\nDon't ask me, I don't know much haxe.\n- 99whois", "JS Engine Anti-Crash Tool");
 				// jordan i hate you for this /hj - 99whois
-				menuItems = menuItemsExit;
-				regenMenu();
 				}
 			}
 			if (menuItems == menuItemsExit) {

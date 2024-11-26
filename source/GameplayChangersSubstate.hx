@@ -46,19 +46,19 @@ class GameplayChangersSubstate extends MusicBeatSubstate
 
 		var option:GameplayOption = new GameplayOption('Scroll Speed', 'scrollspeed', 'float', 1);
 		option.scrollSpeed = 2.0;
-		option.minValue = 0.35;
-		option.changeValue = 0.05;
+		option.minValue = 0;
+		option.changeValue = 0.01;
 		option.slowChangeVal = 0.01;
 		option.decimals = 2;
 		if (goption.getValue() != "constant")
 		{
 			option.displayFormat = '%vX';
-			option.maxValue = 128;
+			option.maxValue = 1048576;
 		}
 		else
 		{
 			option.displayFormat = "%v";
-			option.maxValue = 1024;
+			option.maxValue = 1048576;
 		}
 		optionsArray.push(option);
 
@@ -67,7 +67,7 @@ class GameplayChangersSubstate extends MusicBeatSubstate
 		option.scrollSpeed = 3;
 		option.minValue = 0.01;
 		option.maxValue = 100;
-		option.changeValue = 0.05;
+		option.changeValue = 0.01;
 		option.slowChangeVal = 0.01;
 		option.displayFormat = '%vX';
 		option.decimals = 2;
@@ -78,7 +78,7 @@ class GameplayChangersSubstate extends MusicBeatSubstate
 		option.scrollSpeed = 5;
 		option.minValue = -1;
 		option.maxValue = 50;
-		option.changeValue = 0.1;
+		option.changeValue = 0.01;
 		option.slowChangeVal = 0.01;
 		option.decimals = 3;
 		option.displayFormat = '%vX';
@@ -86,9 +86,9 @@ class GameplayChangersSubstate extends MusicBeatSubstate
 
 		var option:GameplayOption = new GameplayOption('Health Loss Multiplier', 'healthloss', 'float', 1);
 		option.scrollSpeed = 2.5;
-		option.minValue = -1;
+		option.minValue = -100;
 		option.maxValue = 50;
-		option.changeValue = 0.1;
+		option.changeValue = 0.01;
 		option.slowChangeVal = 0.01;
 		option.decimals = 3;
 		option.displayFormat = '%vX';
@@ -122,7 +122,7 @@ class GameplayChangersSubstate extends MusicBeatSubstate
 		var option:GameplayOption = new GameplayOption('Health Drain Level: ', 'drainlevel', 'float', 1);
 		option.scrollSpeed = 2;
 		option.minValue = -1;
-		option.maxValue = 10;
+		option.maxValue = 100;
 		option.changeValue = 0.1;
 		option.slowChangeVal = 0.01;
 		option.displayFormat = '%vX';
@@ -152,7 +152,7 @@ class GameplayChangersSubstate extends MusicBeatSubstate
 		option.onChange = onChangeChartOption;
 		option.scrollSpeed = 6;
 		option.minValue = 0;
-		option.maxValue = 100;
+		option.maxValue = 1000;
 		option.changeValue = 1;
 		option.slowChangeVal = 1;
 		option.displayFormat = '%v';
@@ -166,7 +166,7 @@ class GameplayChangersSubstate extends MusicBeatSubstate
 		option.scrollSpeed = 0.5;
 		option.minValue = 0.1;
 		option.maxValue = 1;
-		option.changeValue = 0.05;
+		option.changeValue = 0.01;
 		option.slowChangeVal = 0.01;
 		option.displayFormat = '%v';
 		option.decimals = 2;
@@ -176,7 +176,7 @@ class GameplayChangersSubstate extends MusicBeatSubstate
 		option.scrollSpeed = 0.5;
 		option.minValue = 1;
 		option.maxValue = 10;
-		option.changeValue = 0.05;
+		option.changeValue = 0.01;
 		option.slowChangeVal = 0.01;
 		option.displayFormat = '%v';
 		option.decimals = 2;

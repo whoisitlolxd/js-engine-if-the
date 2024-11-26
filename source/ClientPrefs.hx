@@ -171,7 +171,7 @@ class ClientPrefs { //default settings if it can't find a save file containing y
 	public static var disableSplash:Bool = false;
 
 	//Fun
-	public static var Lanky:Bool = True;
+	public static var Lanky:Bool = true;
 
 	//Gameplay Modifiers
 	public static var gameplaySettings:Map<String, Dynamic> = [

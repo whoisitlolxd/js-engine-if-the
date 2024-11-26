@@ -4,7 +4,10 @@ class FunSettingsSubstate extends BaseOptionsMenu
 {
 	public function new()
 	{
-		var logo:FlxSprite = new FlxSprite();
+		var logo:FlxSprite = new FlxSprite().loadGraphic(Paths.image('lankybox', 'funny'));
+		logo.updateHitbox();
+		logo.screenCenter();
+		logo.alpha = 0;
 		var sigma:Bool = false;
 		title = 'Fun';
 		rpcTitle = 'Fun Settings Menu'; //for Discord Rich Presence
@@ -16,18 +19,17 @@ class FunSettingsSubstate extends BaseOptionsMenu
 			'bool', //Variable type
 			true); //Default value
 		option.onChange = function() {
-			if (sigma) return;
-			ClientPrefs.Lanky = true;
-			sigma = true;
-			logo.alpha = 1;
-			logo.loadGraphic(Paths.image('lankybox', 'funny'));
-			logo.updateHitbox();
-			logo.screenCenter();
-			FlxG.sound.play(Paths.sound('lankybox jumpscare', 'funny'));
-			new FlxTimer().start(1, function(tmr:FlxTimer) {
-				logo.alpha = 0;
-			});
-			sigma = false;
+			if (!sigma)
+			{
+				ClientPrefs.Lanky = true;
+				sigma = true;
+				logo.alpha = 1;
+				FlxG.sound.play(Paths.sound('lankybox jumpscare', 'funny'));
+				new FlxTimer().start(1, function(tmr:FlxTimer) {
+					logo.alpha = 0;
+					sigma = false;
+				});
+			}
 		}
 		addOption(option);
 

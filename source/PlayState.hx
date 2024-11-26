@@ -3883,15 +3883,6 @@ class PlayState extends MusicBeatState
 		}
 		if (health <= 0) doDeathCheck();
 
-		var sigma:Bool = false;
-			if (ClientPrefs.coolNoteCap)
-			{
-				if (actualRenderedNotes < ClientPrefs.maxNotes)
-				{
-					sigma = true;
-				}
-			}
-
 		if (ClientPrefs.runNoteThingBefore)
 		{
 			var sigma:Bool = false;
@@ -3989,18 +3980,13 @@ class PlayState extends MusicBeatState
 				}
 				amountOfRenderedNotes = 0;
 				actualRenderedNotes = 0;
-				var thingie:Int = 1;
 				for (group in [notes, sustainNotes])
 				{
 					group.forEach(function(daNote)
 					{
-						if (thingie < ClientPrefs.maxNotes)
-						{
-							// this is experimental
-							updateNote(daNote);
-						}
-						thingie++;
-					});
+						updateNote(daNote);
+						// had to revert because it really broke this thing
+					}); 
 					if (!ClientPrefs.screwTheNoteSorting) group.sort(FlxSort.byY, ClientPrefs.downScroll ? FlxSort.ASCENDING : FlxSort.DESCENDING);
 					// on jah?
 				}

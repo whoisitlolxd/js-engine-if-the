@@ -3883,70 +3883,99 @@ class PlayState extends MusicBeatState
 		}
 		if (health <= 0) doDeathCheck();
 
-		if (ClientPrefs.runNoteThingBefore)
-		{
-		skippedCount = 0;
-
-		if (unspawnNotes.length > 0 && unspawnNotes[0] != null)
-		{
-			NOTE_SPAWN_TIME = (ClientPrefs.dynamicSpawnTime ? (1600 / songSpeed) : 1600 * ClientPrefs.noteSpawnTime);
-			if (notesAddedCount != 0) notesAddedCount = 0;
-
-			if (notesAddedCount > unspawnNotes.length)
-				notesAddedCount -= (notesAddedCount - unspawnNotes.length);
-
-			if (!unspawnNotes[notesAddedCount].wasHit)
-			{
-				while (unspawnNotes[notesAddedCount] != null && unspawnNotes[notesAddedCount].strumTime <= Conductor.songPosition) {
-					unspawnNotes[notesAddedCount].wasHit = true;
-					unspawnNotes[notesAddedCount].mustPress ? goodNoteHit(null, unspawnNotes[notesAddedCount]): opponentNoteHit(null, unspawnNotes[notesAddedCount]);
-					notesAddedCount++;
-					skippedCount++;
-					if (skippedCount > maxSkipped) maxSkipped = skippedCount;
-				}
-			}
-			if (ClientPrefs.showNotes || !ClientPrefs.showNotes && !cpuControlled)
+		var sigma:Bool = false;
+			if (ClientPrefs.coolNoteCap)
 			{
 				if (actualRenderedNotes < ClientPrefs.maxNotes)
 				{
-				while (unspawnNotes[notesAddedCount] != null && unspawnNotes[notesAddedCount].strumTime - Conductor.songPosition < (NOTE_SPAWN_TIME / unspawnNotes[notesAddedCount].multSpeed)) {
-					if (ClientPrefs.fastNoteSpawn && actualRenderedNotes < ClientPrefs.maxNotes) (unspawnNotes[notesAddedCount].isSustainNote ? sustainNotes : notes).spawnNote(unspawnNotes[notesAddedCount]);
-					else
-					{
-						if (ClientPrefs.coolNoteCap)
-						{
-							if (notesAddedCount < ClientPrefs.maxNotes && notes.length < ClientPrefs.maxNotes && amountOfRenderedNotes < ClientPrefs.maxNotes && actualRenderedNotes < ClientPrefs.maxNotes) // yum...
-							{
-								spawnedNote = (unspawnNotes[notesAddedCount].isSustainNote ? sustainNotes : notes).recycle(Note);
-								spawnedNote.setupNoteData(unspawnNotes[notesAddedCount]);
-								// i'm not sure if this actually works tbh. i'm just adding this for the sake of my computer
-								// by the way i ain't compiling shit myself alright I HAVE LIKE LESS THAN 10 GB OF SPACE LEFT ON THIS STUPID COMPUTER AHHHHH I CAN'T FIND THE OTHER ONE I DON'T WANT TO INSTALL ALL THESE DUMBASS DEPENDENCIES FOR A GAME THAT IS JUST ~1 GB OF SPACE
-								// thanks for listening. i hate coding. i only know lua and c# decently so far i am going to strangle someone i swear to god
-								// - 99whois
-							}
-						}
-						else if (ClientPrefs.coolNoteCap2) // stupi3424782394u24i3uo23u4i424jif89fkds -1
-						{
-							if (notesAddedCount < ClientPrefs.maxNotes) // sigma
-							{
-								spawnedNote = (unspawnNotes[notesAddedCount].isSustainNote ? sustainNotes : notes).recycle(Note);
-								spawnedNote.setupNoteData(unspawnNotes[notesAddedCount]);
-							}
-						}
-						else // stupit
-						{
-							spawnedNote = (unspawnNotes[notesAddedCount].isSustainNote ? sustainNotes : notes).recycle(Note);
-							spawnedNote.setupNoteData(unspawnNotes[notesAddedCount]);
-						}
-					}
-					if (!ClientPrefs.noSpawnFunc) callOnLuas('onSpawnNote', [(!unspawnNotes[notesAddedCount].isSustainNote ? notes.members.indexOf(notes.members[0]) : sustainNotes.members.indexOf(sustainNotes.members[0])), unspawnNotes[notesAddedCount].noteData, unspawnNotes[notesAddedCount].noteType, unspawnNotes[notesAddedCount].isSustainNote]);
-					notesAddedCount++;
-				}
+					sigma = true;
 				}
 			}
-			if (notesAddedCount > 0)
-				unspawnNotes.splice(0, notesAddedCount);
-		}
+
+		if (ClientPrefs.runNoteThingBefore)
+		{
+			var sigma:Bool = false;
+			if (ClientPrefs.coolNoteCap)
+			{
+				if (actualRenderedNotes < ClientPrefs.maxNotes)
+				{
+					sigma = true;
+				}
+			}	
+			skippedCount = 0;
+	
+			if (unspawnNotes.length > 0 && unspawnNotes[0] != null)
+			{
+				NOTE_SPAWN_TIME = (ClientPrefs.dynamicSpawnTime ? (1600 / songSpeed) : 1600 * ClientPrefs.noteSpawnTime);
+				if (notesAddedCount != 0) notesAddedCount = 0;
+	
+				if (notesAddedCount > unspawnNotes.length)
+					notesAddedCount -= (notesAddedCount - unspawnNotes.length);
+	
+				if (!unspawnNotes[notesAddedCount].wasHit)
+				{
+					while (unspawnNotes[notesAddedCount] != null && unspawnNotes[notesAddedCount].strumTime <= Conductor.songPosition) {
+						unspawnNotes[notesAddedCount].wasHit = true;
+						unspawnNotes[notesAddedCount].mustPress ? goodNoteHit(null, unspawnNotes[notesAddedCount]): opponentNoteHit(null, unspawnNotes[notesAddedCount]);
+						notesAddedCount++;
+						skippedCount++;
+						if (skippedCount > maxSkipped) maxSkipped = skippedCount;
+					}
+				}
+				if (ClientPrefs.showNotes || !ClientPrefs.showNotes && !cpuControlled)
+				{
+					//if (actualRenderedNotes < ClientPrefs.maxNotes)
+					//{
+					while (unspawnNotes[notesAddedCount] != null && unspawnNotes[notesAddedCount].strumTime - Conductor.songPosition < (NOTE_SPAWN_TIME / unspawnNotes[notesAddedCount].multSpeed)) {
+						if (ClientPrefs.coolNoteCap)
+						{
+							if (actualRenderedNotes < ClientPrefs.maxNotes)
+							{
+								sigma = true;
+							}
+						}
+						if (ClientPrefs.fastNoteSpawn && actualRenderedNotes < ClientPrefs.maxNotes) (unspawnNotes[notesAddedCount].isSustainNote ? sustainNotes : notes).spawnNote(unspawnNotes[notesAddedCount]);
+						else
+						{ // fixing the funny
+							//if (ClientPrefs.coolNoteCap)
+							//{
+								//if (notesAddedCount < ClientPrefs.maxNotes && notes.length < ClientPrefs.maxNotes && amountOfRenderedNotes < ClientPrefs.maxNotes && actualRenderedNotes < ClientPrefs.maxNotes) // yum...
+								//{
+									//spawnedNote = (unspawnNotes[notesAddedCount].isSustainNote ? sustainNotes : notes).recycle(Note);
+									//spawnedNote.setupNoteData(unspawnNotes[notesAddedCount]);
+									// i'm not sure if this actually works tbh. i'm just adding this for the sake of my computer
+									// by the way i ain't compiling shit myself alright I HAVE LIKE LESS THAN 10 GB OF SPACE LEFT ON THIS STUPID COMPUTER AHHHHH I CAN'T FIND THE OTHER ONE I DON'T WANT TO INSTALL ALL THESE DUMBASS DEPENDENCIES FOR A GAME THAT IS JUST ~1 GB OF SPACE
+									// thanks for listening. i hate coding. i only know lua and c# decently so far i am going to strangle someone i swear to god
+									// - 99whois
+								//}
+							//}
+							//else if (ClientPrefs.coolNoteCap2) // stupi3424782394u24i3uo23u4i424jif89fkds -1
+							//{
+								//if (notesAddedCount < ClientPrefs.maxNotes) // sigma
+								//{
+									//spawnedNote = (unspawnNotes[notesAddedCount].isSustainNote ? sustainNotes : notes).recycle(Note);
+									//spawnedNote.setupNoteData(unspawnNotes[notesAddedCount]);
+								//}
+							//}
+							//else // stupit
+							if (sigma || !ClientPrefs.coolNoteCap)
+							{
+								spawnedNote = (unspawnNotes[notesAddedCount].isSustainNote ? sustainNotes : notes).recycle(Note);
+								spawnedNote.setupNoteData(unspawnNotes[notesAddedCount]);
+								actualRenderedNotes++;
+							}
+						}
+						if (sigma || !ClientPrefs.coolNoteCap)
+						{
+							if (!ClientPrefs.noSpawnFunc) callOnLuas('onSpawnNote', [(!unspawnNotes[notesAddedCount].isSustainNote ? notes.members.indexOf(notes.members[0]) : sustainNotes.members.indexOf(sustainNotes.members[0])), unspawnNotes[notesAddedCount].noteData, unspawnNotes[notesAddedCount].noteType, unspawnNotes[notesAddedCount].isSustainNote]);
+							notesAddedCount++;
+						}
+					//}
+					}
+				}
+				if (notesAddedCount > 0)
+					unspawnNotes.splice(0, notesAddedCount);
+			}
 		}
 		if (generatedMusic)
 		{
@@ -3960,13 +3989,20 @@ class PlayState extends MusicBeatState
 				}
 				amountOfRenderedNotes = 0;
 				actualRenderedNotes = 0;
+				var thingie:Int = 1;
 				for (group in [notes, sustainNotes])
 				{
 					group.forEach(function(daNote)
 					{
-						updateNote(daNote);
+						if (thingie < ClientPrefs.maxNotes)
+						{
+							// this is experimental
+							updateNote(daNote);
+						}
+						thingie++;
 					});
-					group.sort(FlxSort.byY, ClientPrefs.downScroll ? FlxSort.ASCENDING : FlxSort.DESCENDING);
+					if (!ClientPrefs.screwTheNoteSorting) group.sort(FlxSort.byY, ClientPrefs.downScroll ? FlxSort.ASCENDING : FlxSort.DESCENDING);
+					// on jah?
 				}
 			}
 
@@ -3987,68 +4023,90 @@ class PlayState extends MusicBeatState
 
 		if (!ClientPrefs.runNoteThingBefore) // yeah the funny bug!
 		{
-		skippedCount = 0;
-
-		if (unspawnNotes.length > 0 && unspawnNotes[0] != null)
-		{
-			NOTE_SPAWN_TIME = (ClientPrefs.dynamicSpawnTime ? (1600 / songSpeed) : 1600 * ClientPrefs.noteSpawnTime);
-			if (notesAddedCount != 0) notesAddedCount = 0;
-
-			if (notesAddedCount > unspawnNotes.length)
-				notesAddedCount -= (notesAddedCount - unspawnNotes.length);
-
-			if (!unspawnNotes[notesAddedCount].wasHit)
-			{
-				while (unspawnNotes[notesAddedCount] != null && unspawnNotes[notesAddedCount].strumTime <= Conductor.songPosition) {
-					unspawnNotes[notesAddedCount].wasHit = true;
-					unspawnNotes[notesAddedCount].mustPress ? goodNoteHit(null, unspawnNotes[notesAddedCount]): opponentNoteHit(null, unspawnNotes[notesAddedCount]);
-					notesAddedCount++;
-					skippedCount++;
-					if (skippedCount > maxSkipped) maxSkipped = skippedCount;
-				}
-			}
-			if (ClientPrefs.showNotes || !ClientPrefs.showNotes && !cpuControlled)
+			var sigma:Bool = false;
+			if (ClientPrefs.coolNoteCap)
 			{
 				if (actualRenderedNotes < ClientPrefs.maxNotes)
 				{
-				while (unspawnNotes[notesAddedCount] != null && unspawnNotes[notesAddedCount].strumTime - Conductor.songPosition < (NOTE_SPAWN_TIME / unspawnNotes[notesAddedCount].multSpeed)) {
-					if (ClientPrefs.fastNoteSpawn && actualRenderedNotes < ClientPrefs.maxNotes) (unspawnNotes[notesAddedCount].isSustainNote ? sustainNotes : notes).spawnNote(unspawnNotes[notesAddedCount]);
-					else
-					{
-						if (ClientPrefs.coolNoteCap)
-						{
-							if (notesAddedCount < ClientPrefs.maxNotes && notes.length < ClientPrefs.maxNotes && amountOfRenderedNotes < ClientPrefs.maxNotes && actualRenderedNotes < ClientPrefs.maxNotes) // yum...
-							{
-								spawnedNote = (unspawnNotes[notesAddedCount].isSustainNote ? sustainNotes : notes).recycle(Note);
-								spawnedNote.setupNoteData(unspawnNotes[notesAddedCount]);
-								// i'm not sure if this actually works tbh. i'm just adding this for the sake of my computer
-								// by the way i ain't compiling shit myself alright I HAVE LIKE LESS THAN 10 GB OF SPACE LEFT ON THIS STUPID COMPUTER AHHHHH I CAN'T FIND THE OTHER ONE I DON'T WANT TO INSTALL ALL THESE DUMBASS DEPENDENCIES FOR A GAME THAT IS JUST ~1 GB OF SPACE
-								// thanks for listening. i hate coding. i only know lua and c# decently so far i am going to strangle someone i swear to god
-								// - 99whois
-							}
-						}
-						else if (ClientPrefs.coolNoteCap2) // stupi3424782394u24i3uo23u4i424jif89fkds -1
-						{
-							if (notesAddedCount < ClientPrefs.maxNotes) // sigma
-							{
-								spawnedNote = (unspawnNotes[notesAddedCount].isSustainNote ? sustainNotes : notes).recycle(Note);
-								spawnedNote.setupNoteData(unspawnNotes[notesAddedCount]);
-							}
-						}
-						else // stupit
-						{
-							spawnedNote = (unspawnNotes[notesAddedCount].isSustainNote ? sustainNotes : notes).recycle(Note);
-							spawnedNote.setupNoteData(unspawnNotes[notesAddedCount]);
-						}
-					}
-					if (!ClientPrefs.noSpawnFunc) callOnLuas('onSpawnNote', [(!unspawnNotes[notesAddedCount].isSustainNote ? notes.members.indexOf(notes.members[0]) : sustainNotes.members.indexOf(sustainNotes.members[0])), unspawnNotes[notesAddedCount].noteData, unspawnNotes[notesAddedCount].noteType, unspawnNotes[notesAddedCount].isSustainNote]);
-					notesAddedCount++;
-				}
+					sigma = true;
 				}
 			}
-			if (notesAddedCount > 0)
-				unspawnNotes.splice(0, notesAddedCount);
-		}
+			// god i hate haxe
+			skippedCount = 0;
+	
+			if (unspawnNotes.length > 0 && unspawnNotes[0] != null)
+			{
+				NOTE_SPAWN_TIME = (ClientPrefs.dynamicSpawnTime ? (1600 / songSpeed) : 1600 * ClientPrefs.noteSpawnTime);
+				if (notesAddedCount != 0) notesAddedCount = 0;
+	
+				if (notesAddedCount > unspawnNotes.length)
+					notesAddedCount -= (notesAddedCount - unspawnNotes.length);
+	
+				if (!unspawnNotes[notesAddedCount].wasHit)
+				{
+					while (unspawnNotes[notesAddedCount] != null && unspawnNotes[notesAddedCount].strumTime <= Conductor.songPosition) {
+						unspawnNotes[notesAddedCount].wasHit = true;
+						unspawnNotes[notesAddedCount].mustPress ? goodNoteHit(null, unspawnNotes[notesAddedCount]): opponentNoteHit(null, unspawnNotes[notesAddedCount]);
+						notesAddedCount++;
+						skippedCount++;
+						if (skippedCount > maxSkipped) maxSkipped = skippedCount;
+					}
+				}
+				if (ClientPrefs.showNotes || !ClientPrefs.showNotes && !cpuControlled)
+				{
+					//if (actualRenderedNotes < ClientPrefs.maxNotes)
+					//{
+					while (unspawnNotes[notesAddedCount] != null && unspawnNotes[notesAddedCount].strumTime - Conductor.songPosition < (NOTE_SPAWN_TIME / unspawnNotes[notesAddedCount].multSpeed)) {
+						if (ClientPrefs.coolNoteCap)
+						{
+							if (actualRenderedNotes < ClientPrefs.maxNotes)
+							{
+								sigma = true;
+							}
+						}
+						if (ClientPrefs.fastNoteSpawn && actualRenderedNotes < ClientPrefs.maxNotes) (unspawnNotes[notesAddedCount].isSustainNote ? sustainNotes : notes).spawnNote(unspawnNotes[notesAddedCount]);
+						else
+						{ // fixing the funny (TRYING TO.)
+							//if (ClientPrefs.coolNoteCap)
+							//{
+								//if (notesAddedCount < ClientPrefs.maxNotes && notes.length < ClientPrefs.maxNotes && amountOfRenderedNotes < ClientPrefs.maxNotes && actualRenderedNotes < ClientPrefs.maxNotes) // yum...
+								//{
+									//spawnedNote = (unspawnNotes[notesAddedCount].isSustainNote ? sustainNotes : notes).recycle(Note);
+									//spawnedNote.setupNoteData(unspawnNotes[notesAddedCount]);
+									// i'm not sure if this actually works tbh. i'm just adding this for the sake of my computer
+									// by the way i ain't compiling shit myself alright I HAVE LIKE LESS THAN 10 GB OF SPACE LEFT ON THIS STUPID COMPUTER AHHHHH I CAN'T FIND THE OTHER ONE I DON'T WANT TO INSTALL ALL THESE DUMBASS DEPENDENCIES FOR A GAME THAT IS JUST ~1 GB OF SPACE
+									// thanks for listening. i hate coding. i only know lua and c# decently so far i am going to strangle someone i swear to god
+									// - 99whois
+								//}
+							//}
+							//else if (ClientPrefs.coolNoteCap2) // stupi3424782394u24i3uo23u4i424jif89fkds -1
+							//{
+								//if (notesAddedCount < ClientPrefs.maxNotes) // sigma
+								//{
+									//spawnedNote = (unspawnNotes[notesAddedCount].isSustainNote ? sustainNotes : notes).recycle(Note);
+									//spawnedNote.setupNoteData(unspawnNotes[notesAddedCount]);
+								//}
+							//}
+							//else // stupit
+
+							if (sigma || !ClientPrefs.coolNoteCap)
+							{
+								spawnedNote = (unspawnNotes[notesAddedCount].isSustainNote ? sustainNotes : notes).recycle(Note);
+								spawnedNote.setupNoteData(unspawnNotes[notesAddedCount]);
+								actualRenderedNotes++;
+							}
+						}
+						if (sigma || !ClientPrefs.coolNoteCap)
+						{
+							if (!ClientPrefs.noSpawnFunc) callOnLuas('onSpawnNote', [(!unspawnNotes[notesAddedCount].isSustainNote ? notes.members.indexOf(notes.members[0]) : sustainNotes.members.indexOf(sustainNotes.members[0])), unspawnNotes[notesAddedCount].noteData, unspawnNotes[notesAddedCount].noteType, unspawnNotes[notesAddedCount].isSustainNote]);
+							notesAddedCount++;
+						}
+					//}
+					}
+				}
+				if (notesAddedCount > 0)
+					unspawnNotes.splice(0, notesAddedCount);
+			}
 		}
 
 		#if debug

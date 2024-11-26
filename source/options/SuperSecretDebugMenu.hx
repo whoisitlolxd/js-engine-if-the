@@ -96,7 +96,7 @@ class SuperSecretDebugMenu extends BaseOptionsMenu
 		{
 			FlxG.sound.play(Paths.sound('Coughing'), 1);
 		}
-		super.update();
+		super.update(elapsed);
 	}
 	
 	function crashDaEngine():Void {

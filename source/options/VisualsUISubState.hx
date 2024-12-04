@@ -168,6 +168,14 @@ class VisualsUISubState extends BaseOptionsMenu
 			false);
 		addOption(option);
 
+		var option:Option = new Option('Showcase Style: ',
+			"In what format would you like your showcase?",
+			'showcaseST',
+			'string',
+			'JS',
+			['JS', 'AMZ']);
+		addOption(option);
+
 		var option:Option = new Option('Time Text Bounce',
 			'If checked, the time bar text will bounce on every beat hit.',
 			'timeBounce',

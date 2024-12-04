@@ -45,6 +45,7 @@ class ClientPrefs { //default settings if it can't find a save file containing y
 	public static var oldSusStyle:Bool = false;
 	public static var showRendered:Bool = false;
 	public static var showcaseMode:Bool = false;
+	public static var showcaseST:String = 'JS';
 	public static var timeBounce:Bool = true;
 	public static var lengthIntro:Bool = true;
 	public static var timebarShowSpeed:Bool = false;

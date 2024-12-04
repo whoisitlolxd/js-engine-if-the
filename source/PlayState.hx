@@ -1280,7 +1280,7 @@ class PlayState extends MusicBeatState
 		healthBarBG.y = FlxG.height * 0.89;
 		healthBarBG.screenCenter(X);
 		healthBarBG.scrollFactor.set();
-		healthBarBG.visible = !ClientPrefs.hideHud || !ClientPrefs.showcaseMode;
+		healthBarBG.visible = !ClientPrefs.hideHud;
 		healthBarBG.xAdd = -4;
 		healthBarBG.yAdd = -4;
 		add(healthBarBG);
@@ -1289,20 +1289,20 @@ class PlayState extends MusicBeatState
 		healthBar = new FlxBar(healthBarBG.x + 4, healthBarBG.y + 4, RIGHT_TO_LEFT, Std.int(healthBarBG.width - 8), Std.int(healthBarBG.height - 8), this,
 			'displayedHealth', 0, maxHealth);
 		healthBar.scrollFactor.set();
-		healthBar.visible = !ClientPrefs.hideHud || !ClientPrefs.showcaseMode;
+		healthBar.visible = !ClientPrefs.hideHud;
 		healthBar.alpha = ClientPrefs.healthBarAlpha;
 		insert(members.indexOf(healthBarBG), healthBar);
 		healthBarBG.sprTracker = healthBar;
 
 		iconP1 = new HealthIcon(boyfriend.healthIcon, true);
 		iconP1.y = healthBar.y - 75;
-		iconP1.visible = !ClientPrefs.hideHud || !ClientPrefs.showcaseMode;
+		iconP1.visible = !ClientPrefs.hideHud;
 		iconP1.alpha = ClientPrefs.healthBarAlpha;
 		add(iconP1);
 
 		iconP2 = new HealthIcon(dad.healthIcon, false);
 		iconP2.y = healthBar.y - 75;
-		iconP2.visible = !ClientPrefs.hideHud || !ClientPrefs.showcaseMode;
+		iconP2.visible = !ClientPrefs.hideHud;
 		iconP2.alpha = ClientPrefs.healthBarAlpha;
 		add(iconP2);
 		reloadHealthBarColors(dad.healthColorArray, boyfriend.healthColorArray);
@@ -1373,7 +1373,7 @@ class PlayState extends MusicBeatState
 		scoreTxt.setFormat(Paths.font("vcr.ttf"), 16, FlxColor.WHITE, CENTER, OUTLINE,FlxColor.BLACK);
 		scoreTxt.scrollFactor.set();
 		scoreTxt.borderSize = 1;
-		scoreTxt.visible = !ClientPrefs.hideHud || !ClientPrefs.showcaseMode;
+		scoreTxt.visible = !ClientPrefs.hideHud;
 		add(scoreTxt);
 
 		var style:String = ClientPrefs.scoreStyle;
@@ -1405,14 +1405,14 @@ class PlayState extends MusicBeatState
 		}
 		style = null;
 		if (ClientPrefs.showcaseMode) {
-			scoreTxt.visible = false;
-			healthBarBG.visible = false;
-			healthBar.visible = false;
-			iconP2.visible = iconP1.visible = false;
+			var items = [scoreTxt, botplayTxt, healthBarBG, healthBar, iconP1, iconP2];
+			if (ClientPrefs.showcaseST == 'AMZ')
+				items = [scoreTxt, botplayTxt, timeBarBG, timeBar, timeTxt];
+			for (i in items)
+				if (i != null) i.visible = false;
 		}
 		if (ClientPrefs.hideHud) {
-			scoreTxt.visible = false;
-			final daArray:Array<Dynamic> = [botplayTxt, healthBarBG, healthBar, iconP2, iconP1, timeBarBG, timeBar, timeTxt];
+			final daArray:Array<Dynamic> = [scoreTxt, botplayTxt, healthBarBG, healthBar, iconP2, iconP1, timeBarBG, timeBar, timeTxt];
 			for (i in daArray){
 				if (i != null)
 					i.visible = false;
@@ -1504,7 +1504,7 @@ class PlayState extends MusicBeatState
 				botplayTxt.text = 'Practice Mode';
 				botplayTxt.visible = true;
 			}
-				if (ClientPrefs.showcaseMode) {
+				if (ClientPrefs.showcaseMode && ClientPrefs.showcaseST != 'AMZ') {
 				botplayTxt.y += (!ClientPrefs.downScroll ? 60 : -60);
 				botplayTxt.text = 'NPS: $nps/$maxNPS\nOpp NPS: $oppNPS/$maxOppNPS';
 				botplayTxt.visible = true;
@@ -1960,7 +1960,6 @@ class PlayState extends MusicBeatState
 		else{
 			videoCutscene.finishCallback = function()
 			{
-				videoCutscene.dispose();
 				startAndEnd();
 				if (heyStopTrying) openfl.system.System.exit(0);
 				return;
@@ -1972,7 +1971,6 @@ class PlayState extends MusicBeatState
 			videoCutscene.onEndReached.add(callback);
 		else{
 			videoCutscene.onEndReached.add(function(){
-				videoCutscene.dispose();
 				startAndEnd();
 				if (heyStopTrying) openfl.system.System.exit(0);
 				return;
@@ -3392,6 +3390,7 @@ class PlayState extends MusicBeatState
 		}
 
 		callOnLuas('onUpdate', [elapsed]);
+		super.update(elapsed);
 
 		if (tankmanAscend && curStep > 895 && curStep < 1151)
 		{
@@ -3694,116 +3693,40 @@ class PlayState extends MusicBeatState
 				}
 		}
 
-		if (iconP1.visible || iconP2.visible)
-		{
-			if (ClientPrefs.iconBounceType == 'Old Psych') {
-				iconP1.setGraphicSize(Std.int(FlxMath.lerp(iconP1.frameWidth, iconP1.width, CoolUtil.boundTo(1 - (elapsed * 30 * playbackRate), 0, 1))),
-					Std.int(FlxMath.lerp(iconP1.frameHeight, iconP1.height, CoolUtil.boundTo(1 - (elapsed * 30 * playbackRate), 0, 1))));
-				iconP2.setGraphicSize(Std.int(FlxMath.lerp(iconP2.frameWidth, iconP2.width, CoolUtil.boundTo(1 - (elapsed * 30 * playbackRate), 0, 1))),
-					Std.int(FlxMath.lerp(iconP2.frameHeight, iconP2.height, CoolUtil.boundTo(1 - (elapsed * 30 * playbackRate), 0, 1))));
-			}
-			if (ClientPrefs.iconBounceType == 'Strident Crisis') {
-				iconP1.setGraphicSize(Std.int(FlxMath.lerp(iconP1.frameWidth, iconP1.width, 0.50 / playbackRate)),
-					Std.int(FlxMath.lerp(iconP1.frameHeight, iconP1.height, 0.50 / playbackRate)));
-				iconP2.setGraphicSize(Std.int(FlxMath.lerp(iconP2.frameWidth, iconP2.width, 0.50 / playbackRate)),
-					Std.int(FlxMath.lerp(iconP2.frameHeight, iconP1.height, 0.50 / playbackRate)));
-				iconP1.updateHitbox();
-				iconP2.updateHitbox();
-			}
-			if (ClientPrefs.iconBounceType == 'Dave and Bambi') {
-				iconP1.setGraphicSize(Std.int(FlxMath.lerp(iconP1.frameWidth, iconP1.width, 0.8 / playbackRate)),
-					Std.int(FlxMath.lerp(iconP1.frameHeight, iconP1.height, 0.8 / playbackRate)));
-				iconP2.setGraphicSize(Std.int(FlxMath.lerp(iconP2.frameWidth, iconP2.width, 0.8 / playbackRate)),
-					Std.int(FlxMath.lerp(iconP2.frameHeight, iconP2.height, 0.8 / playbackRate)));
-			}
-			if (ClientPrefs.iconBounceType == 'Plank Engine') {
-				final funnyBeat = (Conductor.songPosition / 1000) * (Conductor.bpm / 60);
 
-				iconP1.offset.y = Math.abs(Math.sin(funnyBeat * Math.PI))  * 16 - 4;
-				iconP2.offset.y = Math.abs(Math.sin(funnyBeat * Math.PI))  * 16 - 4;
-			}
-			if (ClientPrefs.iconBounceType == 'New Psych' || ClientPrefs.iconBounceType == 'SB Engine' || ClientPrefs.iconBounceType == 'VS Steve') {
-				final mult:Float = FlxMath.lerp(1, iconP1.scale.x, CoolUtil.boundTo(1 - (elapsed * 9 * playbackRate), 0, 1));
-				iconP1.scale.set(mult, mult);
-				iconP1.updateHitbox();
-
-				final mult:Float = FlxMath.lerp(1, iconP2.scale.x, CoolUtil.boundTo(1 - (elapsed * 9 * playbackRate), 0, 1));
-				iconP2.scale.set(mult, mult);
-				iconP2.updateHitbox();
-			}
-
-			if (ClientPrefs.iconBounceType == 'Golden Apple') {
-				iconP1.centerOffsets();
-				iconP2.centerOffsets();
-			}
-			//you're welcome Stefan2008 :)
-			if (ClientPrefs.iconBounceType == 'SB Engine') {
-				if (iconP1.angle >= 0) {
-					if (iconP1.angle != 0) {
-						iconP1.angle -= 1 * playbackRate;
-					}
-				} else {
-					if (iconP1.angle != 0) {
-						iconP1.angle += 1 * playbackRate;
-					}
-				}
-				if (iconP2.angle >= 0) {
-					if (iconP2.angle != 0) {
-						iconP2.angle -= 1 * playbackRate;
-					}
-				} else {
-					if (iconP2.angle != 0) {
-						iconP2.angle += 1 * playbackRate;
-					}
-				}
-			}
-			iconP1.updateHitbox();
-			iconP2.updateHitbox();
-
-			if (ClientPrefs.smoothHealth)
-			{
-				final percent:Float = 1 - (ClientPrefs.smoothHPBug ? (displayedHealth / maxHealth) : (FlxMath.bound(displayedHealth, 0, maxHealth) / maxHealth));
-
-				iconP1.x = 0 + healthBar.x + (healthBar.width * percent) + (150 * iconP1.scale.x - 150) / 2 - iconOffset;
-				iconP2.x = 0 + healthBar.x + (healthBar.width * percent) - (150 * iconP2.scale.x) / 2 - iconOffset * 2;
-			}
-			else //mb forgot to include this
-			{
-				final center:Float = healthBar.x + (healthBar.width * (FlxMath.remapToRange(healthBar.percent, 0, 100, 100, 0) * 0.01));
-				iconP1.x = center + (150 * iconP1.scale.x - 150) / 2 - iconOffset;
-				iconP2.x = center - (150 * iconP2.scale.x) / 2 - iconOffset * 2;
-			}
-			if (iconP1.animation.numFrames == 3) {
-				if (healthBar.percent < 20)
-					iconP1.animation.curAnim.curFrame = 1;
-				else if (healthBar.percent > 80)
-					iconP1.animation.curAnim.curFrame = 2;
-				else
-					iconP1.animation.curAnim.curFrame = 0;
-			}
-			else {
-				if (healthBar.percent < 20)
-					iconP1.animation.curAnim.curFrame = 1;
-				else
-					iconP1.animation.curAnim.curFrame = 0;
-			}
-			if (iconP2.animation.numFrames == 3) {
-				if (healthBar.percent > 80)
-					iconP2.animation.curAnim.curFrame = 1;
-				else if (healthBar.percent < 20)
-					iconP2.animation.curAnim.curFrame = 2;
-				else
-					iconP2.animation.curAnim.curFrame = 0;
-			} else {
-				if (healthBar.percent > 80)
-					iconP2.animation.curAnim.curFrame = 1;
-				else
-					iconP2.animation.curAnim.curFrame = 0;
-			}
+		if (iconP1.animation.numFrames == 3) {
+			if (healthBar.percent < 20)
+				iconP1.animation.curAnim.curFrame = 1;
+			else if (healthBar.percent > 80)
+				iconP1.animation.curAnim.curFrame = 2;
+			else
+				iconP1.animation.curAnim.curFrame = 0;
+		}
+		else {
+			if (healthBar.percent < 20)
+				iconP1.animation.curAnim.curFrame = 1;
+			else
+				iconP1.animation.curAnim.curFrame = 0;
+		}
+		if (iconP2.animation.numFrames == 3) {
+			if (healthBar.percent > 80)
+				iconP2.animation.curAnim.curFrame = 1;
+			else if (healthBar.percent < 20)
+				iconP2.animation.curAnim.curFrame = 2;
+			else
+				iconP2.animation.curAnim.curFrame = 0;
+		} else {
+			if (healthBar.percent > 80)
+				iconP2.animation.curAnim.curFrame = 1;
+			else
+				iconP2.animation.curAnim.curFrame = 0;
 		}
 
 		if (health > maxHealth)
 			health = maxHealth;
+
+		updateIconsScale(elapsed);
+		updateIconsPosition();
 
 		if (FlxG.keys.anyJustPressed(debugKeysCharacter) && !endingSong && !inCutscene) {
 			persistentUpdate = false;
@@ -4155,7 +4078,6 @@ class PlayState extends MusicBeatState
 			for (i in shaderUpdates){
 				i(elapsed);
 			}
-		super.update(elapsed);
 
 		if (ffmpegMode)
 		{
@@ -4195,6 +4117,91 @@ class PlayState extends MusicBeatState
 			}
 		}
 		takenTime = haxe.Timer.stamp();
+	}
+
+	// Health icon updaters
+	public dynamic function updateIconsScale(elapsed:Float)
+	{
+		if (ClientPrefs.iconBounceType == 'Old Psych') {
+			iconP1.setGraphicSize(Std.int(FlxMath.lerp(iconP1.frameWidth, iconP1.width, CoolUtil.boundTo(1 - (elapsed * 30 * playbackRate), 0, 1))),
+				Std.int(FlxMath.lerp(iconP1.frameHeight, iconP1.height, CoolUtil.boundTo(1 - (elapsed * 30 * playbackRate), 0, 1))));
+			iconP2.setGraphicSize(Std.int(FlxMath.lerp(iconP2.frameWidth, iconP2.width, CoolUtil.boundTo(1 - (elapsed * 30 * playbackRate), 0, 1))),
+				Std.int(FlxMath.lerp(iconP2.frameHeight, iconP2.height, CoolUtil.boundTo(1 - (elapsed * 30 * playbackRate), 0, 1))));
+		}
+		if (ClientPrefs.iconBounceType == 'Strident Crisis') {
+			iconP1.setGraphicSize(Std.int(FlxMath.lerp(iconP1.frameWidth, iconP1.width, 0.50 / playbackRate)),
+				Std.int(FlxMath.lerp(iconP1.frameHeight, iconP1.height, 0.50 / playbackRate)));
+			iconP2.setGraphicSize(Std.int(FlxMath.lerp(iconP2.frameWidth, iconP2.width, 0.50 / playbackRate)),
+				Std.int(FlxMath.lerp(iconP2.frameHeight, iconP1.height, 0.50 / playbackRate)));
+			iconP1.updateHitbox();
+			iconP2.updateHitbox();
+		}
+		if (ClientPrefs.iconBounceType == 'Dave and Bambi') {
+			iconP1.setGraphicSize(Std.int(FlxMath.lerp(iconP1.frameWidth, iconP1.width, 0.8 / playbackRate)),
+				Std.int(FlxMath.lerp(iconP1.frameHeight, iconP1.height, 0.8 / playbackRate)));
+			iconP2.setGraphicSize(Std.int(FlxMath.lerp(iconP2.frameWidth, iconP2.width, 0.8 / playbackRate)),
+				Std.int(FlxMath.lerp(iconP2.frameHeight, iconP2.height, 0.8 / playbackRate)));
+		}
+		if (ClientPrefs.iconBounceType == 'Plank Engine') {
+			final funnyBeat = (Conductor.songPosition / 1000) * (Conductor.bpm / 60);
+
+			iconP1.offset.y = Math.abs(Math.sin(funnyBeat * Math.PI))  * 16 - 4;
+			iconP2.offset.y = Math.abs(Math.sin(funnyBeat * Math.PI))  * 16 - 4;
+		}
+		if (ClientPrefs.iconBounceType == 'New Psych' || ClientPrefs.iconBounceType == 'SB Engine' || ClientPrefs.iconBounceType == 'VS Steve') {
+			final mult:Float = FlxMath.lerp(1, iconP1.scale.x, CoolUtil.boundTo(1 - (elapsed * 9 * playbackRate), 0, 1));
+			iconP1.scale.set(mult, mult);
+			iconP1.updateHitbox();
+
+			final mult:Float = FlxMath.lerp(1, iconP2.scale.x, CoolUtil.boundTo(1 - (elapsed * 9 * playbackRate), 0, 1));
+			iconP2.scale.set(mult, mult);
+			iconP2.updateHitbox();
+		}
+
+		if (ClientPrefs.iconBounceType == 'Golden Apple') {
+			iconP1.centerOffsets();
+			iconP2.centerOffsets();
+		}
+		//you're welcome Stefan2008 :)
+		if (ClientPrefs.iconBounceType == 'SB Engine') {
+			if (iconP1.angle >= 0) {
+				if (iconP1.angle != 0) {
+					iconP1.angle -= 1 * playbackRate;
+				}
+			} else {
+				if (iconP1.angle != 0) {
+					iconP1.angle += 1 * playbackRate;
+				}
+			}
+			if (iconP2.angle >= 0) {
+				if (iconP2.angle != 0) {
+					iconP2.angle -= 1 * playbackRate;
+				}
+			} else {
+				if (iconP2.angle != 0) {
+					iconP2.angle += 1 * playbackRate;
+				}
+			}
+		}
+		iconP1.updateHitbox();
+		iconP2.updateHitbox();
+	}
+
+	public dynamic function updateIconsPosition()
+	{
+		if (ClientPrefs.smoothHealth)
+		{
+			final percent:Float = 1 - (ClientPrefs.smoothHPBug ? (displayedHealth / maxHealth) : (FlxMath.bound(displayedHealth, 0, maxHealth) / maxHealth));
+
+			iconP1.x = 0 + healthBar.x + (healthBar.width * percent) + (150 * iconP1.scale.x - 150) / 2 - iconOffset;
+			iconP2.x = 0 + healthBar.x + (healthBar.width * percent) - (150 * iconP2.scale.x) / 2 - iconOffset * 2;
+		}
+		else //mb forgot to include this
+		{
+			final center:Float = healthBar.x + (healthBar.width * (FlxMath.remapToRange(healthBar.percent, 0, 100, 100, 0) * 0.01));
+			iconP1.x = center + (150 * iconP1.scale.x - 150) / 2 - iconOffset;
+			iconP2.x = center - (150 * iconP2.scale.x) / 2 - iconOffset * 2;
+		}
 	}
 
 	function openPauseMenu()
@@ -6395,11 +6402,7 @@ class PlayState extends MusicBeatState
 		}
 
 		if (ClientPrefs.iconBopWhen == 'Every Beat' && (iconP1.visible || iconP2.visible)) 
-		{
 			bopIcons();
-		}
-		iconP1.updateHitbox();
-		iconP2.updateHitbox();
 
 		if (ClientPrefs.charsAndBG) characterBopper(curBeat);
 		lastBeatHit = curBeat;

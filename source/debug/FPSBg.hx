@@ -8,7 +8,7 @@ import openfl.display.Sprite;
 
 class FPSBg extends Sprite
 {
-	var bgCard:Sprite;
+ var bgCard:Sprite;
     var isShow:Bool = false;
     public function new()
     {
@@ -20,6 +20,7 @@ class FPSBg extends Sprite
 		bgCard.graphics.endFill();
 		addChild(bgCard);
 		relocate(0, 0, ClientPrefs.data.wideScreen);
+	    return bgCard; // idk
     }
 
 	public inline function relocate(X:Float, Y:Float, isWide:Bool = false) {

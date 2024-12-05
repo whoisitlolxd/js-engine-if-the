@@ -174,6 +174,8 @@ class ClientPrefs { //default settings if it can't find a save file containing y
 	//Fun
 	public static var Lanky:Bool = true;
 	public static var testin:bool = true;
+	public static var gugugagamode:bool = true; // doesn't really do anything
+	
 	public static var nothing1:bool = true;
 	public static var nothing2:bool = true;
 	public static var nothing3:bool = true;

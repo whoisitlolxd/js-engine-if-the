@@ -8,6 +8,8 @@ import debug.Memory;
 
 class FPSCounter extends TextField
 {
+	var the:Bool = false;
+	var fpsBg = new FPSBG(); // god will this even work?
 	public var currentFPS(default, null):Float;
 
 	/*
@@ -44,7 +46,7 @@ class FPSCounter extends TextField
 		currentFPS = 0;
 		selectable = false;
 		mouseEnabled = false;
-		defaultTextFormat = new TextFormat("VCR OSD Mono", 12, color);
+		defaultTextFormat = new TextFormat(Paths.font("comic.ttf"), 12, color); // vcr font smells okay
 		autoSize = LEFT;
 		multiline = true;
 		text = "FPS: ";
@@ -103,6 +105,24 @@ class FPSCounter extends TextField
 		text = (ClientPrefs.showFPS ? "FPS: " + (ClientPrefs.ffmpegMode ? ClientPrefs.targetFPS : Math.round(currentFPS)) : "");
 		if (ClientPrefs.ffmpegMode) {
 			text += " (Rendering Mode)";
+		}
+		if (!ClientPrefs.showFPS && fpsBg.isShow)
+		{
+			fpsBg.invis();
+		}
+		else if (ClientPrefs.showFPS && !fpsBg.isShow)
+		{
+			fpsBg.vis();
+		}
+		if (!the && ClientPrefs.gugugagamode)
+		{
+			the = true;
+			setTextFormat(TextFormat(Paths.font("PermanentMarker-Regular.ttf"), 12, color));
+		}
+		else if (the && !ClientPrefs.gugugagamode)
+		{
+			the = false;
+			setTextFormat(defaultTextFormat);
 		}
 		
 		if (ClientPrefs.showRamUsage) text += "\nRAM: " + FlxStringUtil.formatBytes(memory) + (ClientPrefs.showMaxRamUsage ? " / " + FlxStringUtil.formatBytes(mempeak) : "");

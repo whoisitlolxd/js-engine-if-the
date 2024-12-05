@@ -9,8 +9,8 @@ import openfl.display.Sprite;
 
 class FPSBg extends Sprite
 {
-	var bgCard:Sprite;
-	var isShow:Bool = false;
+	public var bgCard:Sprite;
+	public var isShow:Bool = false;
 	public function new()
 	{
 		super();

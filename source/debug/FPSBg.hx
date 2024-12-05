@@ -21,10 +21,9 @@ class FPSBg extends Sprite
 		bgCard.graphics.endFill();
 		addChild(bgCard);
 		relocate(0, 0, false);
-		return bgCard; // idk
 	}
 	
-	public function invis():Void
+	public function invis()
 	{
 		bgCard.graphics.beginFill(0x000000, 0);
 		bgCard.graphics.drawRect(0, 0, 300, 55);
@@ -33,7 +32,7 @@ class FPSBg extends Sprite
 		isShow = false;
 	}
 
-	public function vis():Void
+	public function vis()
 	{
 		bgCard.graphics.beginFill(0x000000, 0.5);
 		bgCard.graphics.drawRect(0, 0, 300, 55);

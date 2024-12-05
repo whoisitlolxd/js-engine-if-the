@@ -800,7 +800,7 @@ class PlayState extends MusicBeatState
 			SONG.gfVersion = gfVersion; //Fix for the Chart Editor
 		}
 		health = maxHealth / 2;
-		displayedHealth = maxHealth / 2;
+		 = maxHealth / 2;
 
 		if (!stageData.hide_girlfriend && ClientPrefs.charsAndBG)
 		{
@@ -4994,7 +4994,7 @@ class PlayState extends MusicBeatState
 
 		var ret:Dynamic = callOnLuas('onEndSong', [], true);
 		if(ret != FunkinLua.Function_Stop && !transitioning) {
-			if (!cpuControlled && !playerIsCheating && ClientPrefs.safeFrames <= 10)
+			if (!cpuControlled && ClientPrefs.safeFrames <= 10)
 			{
 				#if !switch
 				var percent:Float = ratingPercent;

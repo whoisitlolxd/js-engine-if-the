@@ -117,7 +117,7 @@ class FPSCounter extends TextField
 		if (!the && ClientPrefs.gugugagamode)
 		{
 			the = true;
-			setTextFormat(new TextFormat(Paths.font("PermanentMarker-Regular.ttf"), 12, color));
+			setTextFormat(new TextFormat(Paths.font("PermanentMarker-Regular.ttf"), 12, textColor));
 		}
 		else if (the && !ClientPrefs.gugugagamode)
 		{

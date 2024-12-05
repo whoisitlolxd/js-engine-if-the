@@ -56,8 +56,18 @@ class FunSettingsSubstate extends BaseOptionsMenu
 			false); //Default value
 		addOption(option);
 		// you can use this one as a template
-
-
+		
+		var option:Option = new Option('gugugaga mode', //Name
+			'HUGE WORK IN PROGRESS!!!!!!!!!!!!! hi ifdiyyy', //Description
+			'gugugagamode', //Save data variable name
+			'bool', //Variable type
+			false); //Default value
+		addOption(option);
+		
+		
+		
+		
+		
 		// this part will be removed probably
 		var option:Option = new Option('THE NOTHING FLOOD', //Name
 			'Another option that does literally nothing.\nAs the option above says, it\'s a testing option.', //Description

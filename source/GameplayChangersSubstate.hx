@@ -349,13 +349,13 @@ class GameplayChangersSubstate extends MusicBeatSubstate
 											if (curOption.getValue() == "constant")
 											{
 												oOption.displayFormat = "%v";
-												oOption.maxValue = 1024;
+												oOption.maxValue = 1048576;
 											}
 											else
 											{
 												oOption.displayFormat = "%vX";
-												oOption.maxValue = 128;
-												if(oOption.getValue() > 128) oOption.setValue(128);
+												oOption.maxValue = 1048576;
+												if(oOption.getValue() > 1048576) oOption.setValue(1048576);
 											}
 											updateTextFrom(oOption);
 										}
@@ -407,10 +407,10 @@ class GameplayChangersSubstate extends MusicBeatSubstate
 					if(leOption.name == 'Scroll Speed')
 					{
 						leOption.displayFormat = "%vX";
-						leOption.maxValue = 60;
-						if(leOption.getValue() > 60)
+						leOption.maxValue = 1048576;
+						if(leOption.getValue() > 1048576)
 						{
-							leOption.setValue(60);
+							leOption.setValue(1048576);
 						}
 						updateTextFrom(leOption);
 					}
@@ -436,10 +436,10 @@ class GameplayChangersSubstate extends MusicBeatSubstate
 				if(leOption.name == 'Scroll Speed')
 				{
 					leOption.displayFormat = "%vX";
-					leOption.maxValue = 128;
-					if(leOption.getValue() > 128)
+					leOption.maxValue = 1048576;
+					if(leOption.getValue() > 1048576)
 					{
-						leOption.setValue(128);
+						leOption.setValue(1048576);
 					}
 					updateTextFrom(leOption);
 				}
@@ -483,8 +483,10 @@ class GameplayChangersSubstate extends MusicBeatSubstate
 	{
 		if(inThePauseMenu)
 		{
-			trace ("you really thought you would get away with it, invalidated your score");
-			PlayState.playerIsCheating = true;
+			//trace ("you really thought you would get away with it, invalidated your score");
+			//PlayState.playerIsCheating = true;
+
+			// here at peakneilevator we despise anti-cheat
 		}
 	}
 	

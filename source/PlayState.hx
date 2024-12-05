@@ -2844,10 +2844,10 @@ class PlayState extends MusicBeatState
 						{
 							case 0:
 								var boyfriendToGrab:Boyfriend = boyfriendMap.get(charChangeNames[0]);
-								if (boyfriendToGrab != null) bfNoteskin = boyfriendToGrab.noteskin;
+								if (boyfriendToGrab != null && boyfriendToGrab.noteskin.length > 0) bfNoteskin = boyfriendToGrab.noteskin;
 							case 1:
 								var dadToGrab:Character = dadMap.get(charChangeNames[0]);
-								if (dadToGrab != null) dadNoteskin = dadToGrab.noteskin;
+								if (dadToGrab != null && dadToGrab.noteskin.length > 0) dadNoteskin = dadToGrab.noteskin;
 						}
 						charChangeTimes.shift();
 						charChangeNames.shift();
@@ -4624,7 +4624,7 @@ class PlayState extends MusicBeatState
 								if (ClientPrefs.bfIconStyle == "SB Engine") iconP1.changeIcon('bfsb');
 								if (ClientPrefs.bfIconStyle == "OS 'Engine'") iconP1.changeIcon('bfos');
 							}
-							bfNoteskin = boyfriend.noteskin;
+							if (boyfriend.noteskin.length > 0) bfNoteskin = boyfriend.noteskin;
 						}
 						setOnLuas('boyfriendName', boyfriend.curCharacter);
 
@@ -4658,7 +4658,7 @@ class PlayState extends MusicBeatState
 							}
 							if (dadAnim != '') dad.playAnim(dadAnim, true);
 						}
-							dadNoteskin = dad.noteskin;
+							if (dad.noteskin.length > 0) dadNoteskin = dad.noteskin;
 						setOnLuas('dadName', dad.curCharacter);
 
 					case 2:
@@ -5927,7 +5927,7 @@ class PlayState extends MusicBeatState
 				camHUD.shake(playerChar.shakeIntensity / 2, playerChar.shakeDuration / playbackRate);
 			}
 			note.wasGoodHit = true;
-			if (ClientPrefs.noteSplashes && note.isSustainNote && splashesPerFrame[3] <= 4) spawnHoldSplashOnNote(note);
+			if (!ClientPrefs.lessBotLag && ClientPrefs.noteSplashes && note.isSustainNote && splashesPerFrame[3] <= 4) spawnHoldSplashOnNote(note);
 			if (SONG.needsVoices && !ffmpegMode)
 				if (opponentChart && opponentVocals != null && opponentVocals.volume != 1) opponentVocals.volume = 1;
 				else if (!opponentChart && vocals.volume != 1 || vocals.volume != 1) vocals.volume = 1;

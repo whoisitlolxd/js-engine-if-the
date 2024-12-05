@@ -173,29 +173,29 @@ class ClientPrefs { //default settings if it can't find a save file containing y
 
 	//Fun
 	public static var Lanky:Bool = true;
-	public static var testin:bool = true;
-	public static var gugugagamode:bool = true; // doesn't really do anything
+	public static var testin:Bool = true;
+	public static var gugugagamode:Bool = false; // doesn't really do anything
 	
-	public static var nothing1:bool = true;
-	public static var nothing2:bool = true;
-	public static var nothing3:bool = true;
-	public static var nothing4:bool = true;
-	public static var nothing5:bool = true;
-	public static var nothing6:bool = true;
-	public static var nothing7:bool = true;
-	public static var nothing8:bool = true;
-	public static var nothing9:bool = true;
-	public static var nothing10:bool = true;
-	public static var nothing11:bool = true;
-	public static var nothing12:bool = true;
-	public static var nothing13:bool = true;
-	public static var nothing14:bool = true;
-	public static var nothing15:bool = true;
-	public static var nothing16:bool = true;
-	public static var nothing17:bool = true;
-	public static var nothing18:bool = true;
-	public static var nothing19:bool = true;
-	public static var nothing20:bool = true;
+	public static var nothing1:Bool = true;
+	public static var nothing2:Bool = true;
+	public static var nothing3:Bool = true;
+	public static var nothing4:Bool = true;
+	public static var nothing5:Bool = true;
+	public static var nothing6:Bool = true;
+	public static var nothing7:Bool = true;
+	public static var nothing8:Bool = true;
+	public static var nothing9:Bool = true;
+	public static var nothing10:Bool = true;
+	public static var nothing11:Bool = true;
+	public static var nothing12:Bool = true;
+	public static var nothing13:Bool = true;
+	public static var nothing14:Bool = true;
+	public static var nothing15:Bool = true;
+	public static var nothing16:Bool = true;
+	public static var nothing17:Bool = true;
+	public static var nothing18:Bool = true;
+	public static var nothing19:Bool = true;
+	public static var nothing20:Bool = true;
 
 	// too many bro (me talking to myself) - 99whois
 

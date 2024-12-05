@@ -3851,18 +3851,18 @@ class PlayState extends MusicBeatState
 						if (ClientPrefs.fastNoteSpawn && actualRenderedNotes < ClientPrefs.maxNotes) (unspawnNotes[notesAddedCount].isSustainNote ? sustainNotes : notes).spawnNote(unspawnNotes[notesAddedCount]);
 						else
 						{ // fixing the funny
-							//if (ClientPrefs.coolNoteCap)
-							//{
-								//if (notesAddedCount < ClientPrefs.maxNotes && notes.length < ClientPrefs.maxNotes && amountOfRenderedNotes < ClientPrefs.maxNotes && actualRenderedNotes < ClientPrefs.maxNotes) // yum...
-								//{
-									//spawnedNote = (unspawnNotes[notesAddedCount].isSustainNote ? sustainNotes : notes).recycle(Note);
-									//spawnedNote.setupNoteData(unspawnNotes[notesAddedCount]);
+							if (ClientPrefs.coolNoteCap)
+							{
+								if (notesAddedCount < ClientPrefs.maxNotes && notes.length < ClientPrefs.maxNotes && amountOfRenderedNotes < ClientPrefs.maxNotes && actualRenderedNotes < ClientPrefs.maxNotes) // yum...
+								{
+									spawnedNote = (unspawnNotes[notesAddedCount].isSustainNote ? sustainNotes : notes).recycle(Note);
+									spawnedNote.setupNoteData(unspawnNotes[notesAddedCount]);
 									// i'm not sure if this actually works tbh. i'm just adding this for the sake of my computer
 									// by the way i ain't compiling shit myself alright I HAVE LIKE LESS THAN 10 GB OF SPACE LEFT ON THIS STUPID COMPUTER AHHHHH I CAN'T FIND THE OTHER ONE I DON'T WANT TO INSTALL ALL THESE DUMBASS DEPENDENCIES FOR A GAME THAT IS JUST ~1 GB OF SPACE
 									// thanks for listening. i hate coding. i only know lua and c# decently so far i am going to strangle someone i swear to god
 									// - 99whois
-								//}
-							//}
+								}
+							}
 							//else if (ClientPrefs.coolNoteCap2) // stupi3424782394u24i3uo23u4i424jif89fkds -1
 							//{
 								//if (notesAddedCount < ClientPrefs.maxNotes) // sigma
@@ -3903,6 +3903,8 @@ class PlayState extends MusicBeatState
 				}
 				amountOfRenderedNotes = 0;
 				actualRenderedNotes = 0;
+				//var id:Int = 1;
+				// i still don't know how to do this.
 				for (group in [notes, sustainNotes])
 				{
 					group.forEach(function(daNote)
@@ -3910,8 +3912,11 @@ class PlayState extends MusicBeatState
 						updateNote(daNote);
 						// had to revert because it really broke this thing
 					}); 
-					if (!ClientPrefs.screwTheNoteSorting) group.sort(FlxSort.byY, ClientPrefs.downScroll ? FlxSort.ASCENDING : FlxSort.DESCENDING);
-					// on jah?
+					if (!ClientPrefs.screwTheNoteSorting)
+					{
+						group.sort(FlxSort.byY, ClientPrefs.downScroll ? FlxSort.ASCENDING : FlxSort.DESCENDING);
+						// on jah?
+					}
 				}
 			}
 
@@ -3976,18 +3981,18 @@ class PlayState extends MusicBeatState
 						if (ClientPrefs.fastNoteSpawn && actualRenderedNotes < ClientPrefs.maxNotes) (unspawnNotes[notesAddedCount].isSustainNote ? sustainNotes : notes).spawnNote(unspawnNotes[notesAddedCount]);
 						else
 						{ // fixing the funny (TRYING TO.)
-							//if (ClientPrefs.coolNoteCap)
-							//{
-								//if (notesAddedCount < ClientPrefs.maxNotes && notes.length < ClientPrefs.maxNotes && amountOfRenderedNotes < ClientPrefs.maxNotes && actualRenderedNotes < ClientPrefs.maxNotes) // yum...
-								//{
-									//spawnedNote = (unspawnNotes[notesAddedCount].isSustainNote ? sustainNotes : notes).recycle(Note);
-									//spawnedNote.setupNoteData(unspawnNotes[notesAddedCount]);
+							if (ClientPrefs.coolNoteCap)
+							{
+								if (notesAddedCount < ClientPrefs.maxNotes && notes.length < ClientPrefs.maxNotes && amountOfRenderedNotes < ClientPrefs.maxNotes && actualRenderedNotes < ClientPrefs.maxNotes) // yum...
+								{
+									spawnedNote = (unspawnNotes[notesAddedCount].isSustainNote ? sustainNotes : notes).recycle(Note);
+									spawnedNote.setupNoteData(unspawnNotes[notesAddedCount]);
 									// i'm not sure if this actually works tbh. i'm just adding this for the sake of my computer
 									// by the way i ain't compiling shit myself alright I HAVE LIKE LESS THAN 10 GB OF SPACE LEFT ON THIS STUPID COMPUTER AHHHHH I CAN'T FIND THE OTHER ONE I DON'T WANT TO INSTALL ALL THESE DUMBASS DEPENDENCIES FOR A GAME THAT IS JUST ~1 GB OF SPACE
 									// thanks for listening. i hate coding. i only know lua and c# decently so far i am going to strangle someone i swear to god
 									// - 99whois
-								//}
-							//}
+								}
+							}
 							//else if (ClientPrefs.coolNoteCap2) // stupi3424782394u24i3uo23u4i424jif89fkds -1
 							//{
 								//if (notesAddedCount < ClientPrefs.maxNotes) // sigma

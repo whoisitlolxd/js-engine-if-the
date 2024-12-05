@@ -800,8 +800,7 @@ class PlayState extends MusicBeatState
 			SONG.gfVersion = gfVersion; //Fix for the Chart Editor
 		}
 		health = maxHealth / 2;
-		 = maxHealth / 2;
-			} // expected } ?????
+		displayedHealth = maxHealth / 2;
 		if (!stageData.hide_girlfriend && ClientPrefs.charsAndBG)
 		{
 			gf = new Character(0, 0, gfVersion);

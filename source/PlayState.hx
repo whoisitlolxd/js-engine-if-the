@@ -801,7 +801,7 @@ class PlayState extends MusicBeatState
 		}
 		health = maxHealth / 2;
 		 = maxHealth / 2;
-
+			} // expected } ?????
 		if (!stageData.hide_girlfriend && ClientPrefs.charsAndBG)
 		{
 			gf = new Character(0, 0, gfVersion);

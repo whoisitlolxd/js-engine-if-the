@@ -9,7 +9,7 @@ import debug.Memory;
 class FPSCounter extends TextField
 {
 	var the:Bool = false;
-	var fpsBg = new FPSBG(); // god will this even work?
+	var fpsBg:FPSBg = new FPSBg(); // god will this even work?
 	public var currentFPS(default, null):Float;
 
 	/*

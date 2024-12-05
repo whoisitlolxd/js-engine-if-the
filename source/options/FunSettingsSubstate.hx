@@ -17,7 +17,7 @@ class FunSettingsSubstate extends BaseOptionsMenu
 			'Lanky', //Save data variable name
 			'bool', //Variable type
 			true); //Default value
-		option.onChange = function() {
+		option.onChange = function():Void {
 			ClientPrefs.Lanky = true;
 			sigma = true;
 			logo.alpha = 1;

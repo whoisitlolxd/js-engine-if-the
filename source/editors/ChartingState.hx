@@ -254,7 +254,8 @@ class ChartingState extends MusicBeatState
 	public var hitsoundVol:Float = 1;
 
 	var autoSaveTimer:FlxTimer;
-	public var autoSaveLength:Float = 90; // 2 minutes
+	public var autoSaveLength:Float = 240; // 2 minutes
+	// tf you talking about 45 seconds times 2 isnt two minutes, why is it 90? i set it to 240 now. - 99whois
 	override function create()
 	{
 		idleMusic = new EditingMusic();
@@ -298,7 +299,7 @@ class ChartingState extends MusicBeatState
 		hitsound = FlxG.sound.load(Paths.sound("hitsounds/" + 'osu!mania'));
 		coughing = FlxG.sound.load(Paths.sound('Coughing'));
 		hitsound.volume = 1;
-		coughing.volume = 1;
+		coughing.volume = 0.25;
 		
 		if (Note.globalRgbShaders.length > 0) Note.globalRgbShaders = [];
 		Paths.initDefaultSkin(_song.arrowSkin, true);
@@ -1236,6 +1237,25 @@ class ChartingState extends MusicBeatState
 
 			updateGrid(false);
 		});
+		var oneNoteifier:FlxButton = new FlxButton(duetButton.x + 100, duetButton.y - 60, "One Key-ify", function()
+		{
+			for (note in _song.notes[curSec].sectionNotes)
+			{
+				note[1] = 0;
+				if (note[1] > 3) note[1] = 4;
+			}
+			updateGrid(false);
+		});
+		var randomizeButton:FlxButton = new FlxButton(duetButton.x + 100, duetButton.y - 15, "Randomize Notes", function()
+		{
+			// yup
+			for (note in _song.notes[curSec].sectionNotes)
+			{
+				note[1] = FlxG.random.int(0,3);
+				if (note[1] > 3) note[1] = FlxG.random.int(3,7);
+			}
+			updateGrid(false);
+		});
 		var clearLeftSectionButton:FlxButton = new FlxButton(duetButton.x, duetButton.y + 30, "Clear Left Side", function()
 		{
 			if (_song.notes[curSection] == null || _song.notes[curSection] != null && _song.notes[curSection].sectionNotes == null) return;
@@ -1447,6 +1467,8 @@ class ChartingState extends MusicBeatState
 		tab_group_section.add(copyLastButton);
 		tab_group_section.add(duetButton);
 		tab_group_section.add(mirrorButton);
+		tab_group_section.add(randomizeButton);
+		tab_group_section.add(oneNoteifier);
 		tab_group_section.add(copyMultiSectButton);
 		tab_group_section.add(deleteSections);
 
@@ -1691,6 +1713,8 @@ class ChartingState extends MusicBeatState
 		shiftNotesButton.setGraphicSize(Std.int(shiftNotesButton.width), Std.int(shiftNotesButton.height));
 
 		//ok im adding way too many spamcharting features LOL
+
+		// It's not enough. Give us more. Feed us. - 99whois
 
 		var stepperDuplicateAmount:FlxUINumericStepper = new FlxUINumericStepper(10, shiftNotesButton.y + 30, 1, 1, 0, 32, 4);
 		stepperDuplicateAmount.name = 'duplicater_amount';
@@ -2474,8 +2498,9 @@ class ChartingState extends MusicBeatState
 	override function update(elapsed:Float)
 	{
 		// funny
-		if (FlxG.random.int(0,1000) == 420)
+		if (FlxG.random.int(0,100000) == 69420)
 		{
+			// an even lower chance because it got annoying sorry
 			coughing.play(true);
 		}
 		curStep = recalculateSteps();

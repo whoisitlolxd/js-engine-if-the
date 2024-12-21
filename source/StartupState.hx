@@ -21,6 +21,7 @@ class StartupState extends MusicBeatState
 
 	var maxIntros:Int = 5; // +2 for wega and rimon iirc?
 	var maxSecretIntros:Int = 0; // trolley
+	var alreadyPressed:Bool = false; // yes
 
 	override public function create():Void
 	{

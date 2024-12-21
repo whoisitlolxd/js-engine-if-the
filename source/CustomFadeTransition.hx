@@ -48,6 +48,7 @@ class CustomFadeTransition extends MusicBeatSubstate {
 
 		final height:Float = FlxG.height * Math.max(camera.zoom, 0.001);
 		final targetPos:Float = transGradient.height + 50 * Math.max(camera.zoom, 0.001);
+		// WHAT THE HELL IS 'final'
 		if(duration > 0)
 			transGradient.y += (height + targetPos) * elapsed / duration;
 		else
@@ -65,6 +66,7 @@ class CustomFadeTransition extends MusicBeatSubstate {
 	}
 
 	// Don't delete this
+	// why - 99whois
 	override function close():Void
 	{
 		super.close();

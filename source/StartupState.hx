@@ -18,14 +18,18 @@ class StartupState extends MusicBeatState
 {
 	var logo:FlxSprite;
 	var skipTxt:FlxText;
-	var alreadyPressed:Bool = false;
 
-	var maxIntros:Int = 5; // 5 so adding rimon and wega
+	var maxIntros:Int = 3;
+	var maxSecretIntros:Int = 0; // trolley
 
 	override public function create():Void
 	{
-		#if VIDEOS_ALLOWED maxIntros += 2; #end
+		#if VIDEOS_ALLOWED
+		maxIntros += 2;
+		maxSecretIntros += 1;
+		#end
 		var theIntro:Int = FlxG.random.int(0, maxIntros);
+		var theSecretIntro:Int = FlxG.random.int(0, maxSecretIntros);
 		FlxTransitionableState.skipNextTransIn = true;
 		FlxTransitionableState.skipNextTransOut = true;
 		logo = new FlxSprite().loadGraphic(Paths.image('sillyLogo', 'splash'));
@@ -47,96 +51,85 @@ class StartupState extends MusicBeatState
 		FlxTween.tween(skipTxt, {alpha: 1}, 1);
 
 		new FlxTimer().start(0.1, function(tmr:FlxTimer) {
-			switch (theIntro) {
-				case 0:
-					FlxG.sound.play(Paths.sound('startup', 'splash'));
-					logo.scale.set(0.1,0.1);
-					logo.updateHitbox();
-					logo.screenCenter();
-					FlxTween.tween(logo, {alpha: 1, "scale.x": 1, "scale.y": 1}, 0.95, {ease: FlxEase.expoOut, onComplete: _ -> onIntroDone()});
-				case 1:
-					FlxG.sound.play(Paths.sound('startup', 'splash'));
-					FlxG.sound.play(Paths.sound('FIREINTHEHOLE', 'splash'));
-					logo.loadGraphic(Paths.image('lobotomy', 'splash'));
-					logo.scale.set(0.1,0.1);
-					logo.updateHitbox();
-					logo.screenCenter();
-					FlxTween.tween(logo, {alpha: 1, "scale.x": 1, "scale.y": 1}, 1.35, {ease: FlxEase.expoOut, onComplete: _ -> onIntroDone()});
-				case 2:
-					FlxG.sound.play(Paths.sound('screwedEngine', 'splash'));
-					logo.loadGraphic(Paths.image('ScrewedLogo', 'splash'));
-					logo.scale.set(0.1,0.1);
-					logo.updateHitbox();
-					logo.screenCenter();
-					FlxTween.tween(logo, {alpha: 1, "scale.x": 1, "scale.y": 1}, 1.35, {ease: FlxEase.expoOut, onComplete: _ -> onIntroDone(0.6)});
-				case 3:
-					// secret muaahahhahhahaahha
-					FlxG.sound.play(Paths.sound('tada', 'splash'));
-					logo.loadGraphic(Paths.image('JavaScriptLogo', 'splash'));
-					logo.scale.set(0.1,0.1);
-					logo.updateHitbox();
-					logo.screenCenter();
-					FlxTween.tween(logo, {alpha: 1, "scale.x": 1, "scale.y": 1}, 1.35, {ease: FlxEase.expoOut, onComplete: _ -> onIntroDone(0.6)});
-				case 4:
-					// RIMON... hi cone!!!!!!!!!!!!!!!!!
-					FlxG.sound.play(Paths.sound('startup', 'splash'));
-					FlxG.sound.play(Paths.sound('evilLaugh', 'splash'));
-					logo.loadGraphic(Paths.image('RIMON', 'splash'));
-					logo.scale.set(0.1,0.1);
-					logo.updateHitbox();
-					logo.screenCenter();
-					FlxTween.tween(logo, {alpha: 1, "scale.x": 0.75, "scale.y": 0.75}, 1.35, {ease: FlxEase.expoOut, onComplete: _ -> onIntroDone()});
-				case 5:
-					// Wega
-					FlxG.sound.play(Paths.sound('startup', 'splash'));
-					FlxG.sound.play(Paths.sound('wega scream', 'splash'));
-					logo.loadGraphic(Paths.image('wega', 'splash'));
-					logo.scale.set(0.1,0.1);
-					logo.updateHitbox();
-					logo.screenCenter();
-					FlxTween.tween(logo, {alpha: 1, "scale.x": 1, "scale.y": 1}, 1.35, {ease: FlxEase.expoOut, onComplete: _ -> onIntroDone()});
-				case 6:
-					#if VIDEOS_ALLOWED
-						var vidSprite = new MP4Handler(); // it plays but it doesn't show???
-						#if (hxCodec < "3.0.0")
-						vidSprite.playVideo(Paths.video('bambiStartup'), false, false);
-						vidSprite.finishCallback = function()
-						{
-							try { vidSprite.dispose(); }
-							catch (e) {}
-							FlxG.switchState(TitleState.new);
-						};
-						#else
-						vidSprite.play(Paths.video('bambiStartup'));
-						vidSprite.onEndReached.add(function(){
-							vidSprite.dispose();
-							FlxG.switchState(TitleState.new);
-						});
-						#end
-					#end
-				case 7:
-					#if VIDEOS_ALLOWED
-						var vidSprite = new MP4Handler(); // it plays but it doesn't show???
-						#if (hxCodec < "3.0.0")
-						vidSprite.playVideo(Paths.video('broCopiedDenpa'), false, false);
-						vidSprite.finishCallback = function()
-						{
-							try { vidSprite.dispose(); }
-							catch (e) {}
-							FlxG.switchState(TitleState.new);
-						};
-						#else
-						vidSprite.play(Paths.video('broCopiedDenpa'));
-						vidSprite.onEndReached.add(function(){
-							vidSprite.dispose();
-							FlxG.switchState(TitleState.new);
-						});
-						#end
-					#end
+			if (!FlxG.random.bool(0.25)){
+				switch (theIntro) {
+					case 0:
+						FlxG.sound.play(Paths.sound('startup', 'splash'));
+						logo.scale.set(0.1,0.1);
+						logo.updateHitbox();
+						logo.screenCenter();
+						FlxTween.tween(logo, {alpha: 1, "scale.x": 1, "scale.y": 1}, 0.95, {ease: FlxEase.expoOut, onComplete: _ -> onIntroDone()});
+					case 1:
+						FlxG.sound.play(Paths.sound('startup', 'splash'));
+						FlxG.sound.play(Paths.sound('FIREINTHEHOLE', 'splash'));
+						logo.loadGraphic(Paths.image('lobotomy', 'splash'));
+						logo.scale.set(0.1,0.1);
+						logo.updateHitbox();
+						logo.screenCenter();
+						FlxTween.tween(logo, {alpha: 1, "scale.x": 1, "scale.y": 1}, 1.35, {ease: FlxEase.expoOut, onComplete: _ -> onIntroDone()});
+					case 2:
+						FlxG.sound.play(Paths.sound('screwedEngine', 'splash'));
+						logo.loadGraphic(Paths.image('ScrewedLogo', 'splash'));
+						logo.scale.set(0.1,0.1);
+						logo.updateHitbox();
+						logo.screenCenter();
+						FlxTween.tween(logo, {alpha: 1, "scale.x": 1, "scale.y": 1}, 1.35, {ease: FlxEase.expoOut, onComplete: _ -> onIntroDone(0.6)});
+					case 3:
+						// secret muaahahhahhahaahha
+						FlxG.sound.play(Paths.sound('tada', 'splash'));
+						logo.loadGraphic(Paths.image('JavaScriptLogo', 'splash'));
+						logo.scale.set(0.1,0.1);
+						logo.updateHitbox();
+						logo.screenCenter();
+						FlxTween.tween(logo, {alpha: 1, "scale.x": 1, "scale.y": 1}, 1.35, {ease: FlxEase.expoOut, onComplete: _ -> onIntroDone(0.6)});
+					case 4:
+						playVideo('bambiStartup');
+					case 5:
+						playVideo('broCopiedDenpa');
+				}
+			}
+			else
+			{
+				switch (theSecretIntro)
+				{
+					case 0:
+						playVideo('oops');
+					case 1:
+						playVideo('haxe');
+				}
 			}
 		});
 
 		super.create();
+	}
+
+	// shorter & cleaner code = better :3
+	private function playVideo(name:String, ?callback:Void->Void):Void
+	{
+		#if VIDEOS_ALLOWED
+			var vidSprite = new MP4Handler(); // it plays but it doesn't show???
+			#if (hxCodec < "3.0.0")
+			vidSprite.playVideo(Paths.video(name, 'splash'), false, false);
+			vidSprite.finishCallback = function()
+			{
+				try { vidSprite.dispose(); }
+				catch (e) {}
+				if (callback != null)
+					callback();
+				else
+					FlxG.switchState(TitleState.new);
+			};
+			#else
+			vidSprite.play(Paths.video(name, 'splash'));
+			vidSprite.onEndReached.add(function(){
+				vidSprite.dispose();
+				if (callback != null)
+					callback();
+				else
+					FlxG.switchState(TitleState.new);
+			});
+			#end
+		#end
 	}
 
 	function onIntroDone(?fadeDelay:Float = 0) {
@@ -151,30 +144,7 @@ class StartupState extends MusicBeatState
 
 	override function update(elapsed:Float)
 	{
-		if (FlxG.keys.justPressed.ENTER && !alreadyPressed)
-		{
-			var skibidy:Int = FlxG.random.int(1, 10);
-			alreadyPressed = true;
-			if (skibidy > 7)
-			{
-				// hi neil staff if any of you are reading this
-				// here's a special message
-				// FUCK YO- /j
-				// no niko i won't remove this
-				// - 99whois
-				logo.loadGraphic(Paths.image('BECAUSE SPRUNKI KILLED MY GRANDMA OKAY', 'splash')); // BECAUSE SPRUNKI KILLED MY GRANDMA OKAY
-				logo.updateHitbox();
-				logo.screenCenter();
-				FlxG.sound.play(Paths.sound('GET OUT', 'splash'));
-				new FlxTimer().start(0.25, function(tmr:FlxTimer) {
-					FlxG.switchState(TitleState.new);
-				});
-			}
-			else
-			{
-				FlxG.switchState(TitleState.new); // rizz
-			}
-		}
+		if (FlxG.keys.justPressed.ENTER) FlxG.switchState(TitleState.new);
 		super.update(elapsed);
 	}
 }

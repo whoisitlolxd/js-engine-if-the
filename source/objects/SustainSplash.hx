@@ -85,6 +85,8 @@ class SustainSplash extends FlxSprite {
 
     offset.set(PlayState.isPixelStage ? 112.5 : 106.25, 100);
 
+    setPosition(strumNote.x, strumNote.y);
+
     timer = new FlxTimer().start(timeThingy, (idk:FlxTimer) -> {
       if (daNote.isSustainEnd && daNote.mustPress && !daNote.noteSplashData.disabled && ClientPrefs.noteSplashes) {
         alpha = 1;

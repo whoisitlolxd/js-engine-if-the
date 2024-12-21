@@ -5,7 +5,7 @@
   <br>
   <b>JS Engine</b>
   <br>
-  <i>(JordanSantiago engine)</i>
+  <i>(Jordan Santiago Engine)</i>
   <br>
 </h1>
 <h3 align="center">

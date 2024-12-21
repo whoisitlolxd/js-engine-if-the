@@ -44,6 +44,9 @@ to Download the binary for Microsoft Visual Studio with the specific package you
 For getting all the packages you need, distros often have similar or near identical names
 
 for pretty much every distro, install the `git`, `haxe` and `vlc` packages
+> Note: This can probably be skipped if you installed Arch Linux via `archinstall` as it preinstalls vlc ahead of time, but if you still get errors involving LibVLC continue below to the Arch instructions.
+
+> In the event you get this error: `libvlc.so.5: file format not recognized; treating as linker script` and then `libvlc.so.5:0: syntax error` then you need to use HxCodec 3.0.2
 
 Commands will vary depending on your distro, refer to your package manager's install command syntax.
 ### Installation for common Linux distros

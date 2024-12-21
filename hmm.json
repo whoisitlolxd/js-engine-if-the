@@ -18,7 +18,7 @@
     {
       "name": "flixel-addons",
       "type": "haxelib",
-      "version": null
+      "version": "3.2.3"
     },
     {
       "name": "flixel-tools",
@@ -28,7 +28,7 @@
     {
       "name": "flixel-ui",
       "type": "haxelib",
-      "version": null
+      "version": "2.6.1"
     },
     {
       "name": "hxcpp",
@@ -86,6 +86,13 @@
       "dir": null,
       "ref": "cbf91e2180fd2e374924fe74844086aab7891666",
       "url": "https://gitlab.com/haxe-grig/grig.audio.git"
+    },
+    {
+      "name": "away3d",
+      "type": "git",
+      "dir":  null,
+      "ref": "master",
+      "url": "https://github.com/moxie-coder/away3d"
     }
   ]
 }

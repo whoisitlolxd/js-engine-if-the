@@ -1,3 +1,9 @@
+1.39.1;
+
+macOS Monterey/Ventura is no longer supported (possibly)
+The color of the Dave Engine Time Bar now matches the opponent's health bar colors (like the 3.5 HUD!)
+Fixed a small bug with the position of Sustain Splashes
+
 1.39.0;
 
 The Autosave timer in the Editor will now reset if you save the chart before the timer is done.

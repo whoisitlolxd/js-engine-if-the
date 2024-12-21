@@ -451,7 +451,7 @@ class Paths
 		return getPath('$key.lua', TEXT, library);
 	}
 	//Video loading (part of it)
-	static public function video(key:String)
+	static public function video(key:String, ?library:String = null)
 	{
 		#if MODS_ALLOWED
 		var file:String = modsVideo(key);
@@ -459,7 +459,7 @@ class Paths
 			return file;
 		}
 		#end
-		return 'assets/videos/$key.$VIDEO_EXT';
+		return 'assets/${(library != null) ? '$library/' : ''}videos/$key.$VIDEO_EXT';
 	}
 	//Sound loading.
 	static public function sound(key:String, ?library:String):Sound

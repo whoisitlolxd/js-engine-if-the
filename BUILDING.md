@@ -107,4 +107,8 @@ To fix that, install the `g++` package for your Linux Distro, names for said pac
 
 e.g: Fedora is `gcc-c++`, Gentoo is `sys-devel/gcc`, and so on.
 
+### "I have an error saying ApplicationMain.exe : fatal error LNK1120: 1 unresolved externals!"
+
+Run `lime test cpp -clean` again, or delete the export (more specifically, export/obj) folder and compile again.
+
 ---

@@ -73,11 +73,11 @@ class DiscordClient
 
 	public static function initialize()
 	{
-		var discordHandlers:DiscordEventHandlers = DiscordEventHandlers.create();
+		final discordHandlers:DiscordEventHandlers = new DiscordEventHandlers();
 		discordHandlers.ready = Function.fromStaticFunction(onReady);
 		discordHandlers.disconnected = Function.fromStaticFunction(onDisconnected);
 		discordHandlers.errored = Function.fromStaticFunction(onError);
-		Discord.Initialize(clientID, cpp.RawPointer.addressOf(discordHandlers), 1, null);
+		Discord.Initialize(clientID, cpp.RawPointer.addressOf(discordHandlers), true, null);
 
 		if(!isInitialized) trace("Discord Client initialized");
 
@@ -171,7 +171,7 @@ final class DiscordPresence
 
 	function new()
 	{
-		__presence = DiscordRichPresence.create();
+		__presence = new DiscordRichPresence();
 	}
 
 	public function toString():String

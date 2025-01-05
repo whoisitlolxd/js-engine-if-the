@@ -183,7 +183,8 @@ class StrumNote extends FlxSprite
 	}
 	public function updateNoteSkin(noteskin:String) {
 			if (texture == "noteskins/" + noteskin || noteskin == ogNoteskin || texture == noteskin) return; //if the noteskin to change to is the same as before then don't update it
-			if (noteskin != null && noteskin != '') texture = "noteskins/" + noteskin;
+			if (noteskin != null && noteskin.length > 0) texture = "noteskins/" + noteskin;
+			else texture = "noteskins/NOTE_assets" + Note.getNoteSkinPostfix();
 	}
 	public function updateRGBColors(?r:FlxColor, ?g:FlxColor, ?b:FlxColor) {
         if (rgbShader != null)

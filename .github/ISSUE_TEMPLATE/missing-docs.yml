@@ -1,6 +1,6 @@
 name: Missing Documentation
 description: Ask for documentation if something is missing.
-labels: [documentation]
+labels: [documentation, status: pending triage]
 body:
   - type: textarea
     attributes:

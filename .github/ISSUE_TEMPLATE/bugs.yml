@@ -1,6 +1,6 @@
 name: Bug report
 description: Report bugs with the engine here
-labels: [bug]
+labels: [bug, status: pending triage]
 body:
   - type: textarea
     id: description

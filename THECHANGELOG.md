@@ -1,13 +1,11 @@
-1.39.1;
+1.40.0;
 
-macOS Monterey/Ventura is no longer supported (possibly)
-The color of the Dave Engine Time Bar now matches the opponent's health bar colors (like the 3.5 HUD!)
-Fixed a small bug with the position of Sustain Splashes
+Merry Christmas!
 
-1.39.0;
-
-The Autosave timer in the Editor will now reset if you save the chart before the timer is done.
-The "Load Songs" optimization option has been removed
-Fixed the notes being shown on screen if you hovered over the first V&UI option no matter what your search query was
-New Visual Option: Showcase Style - Choose 2 different ways of showcasing your charts!
-THE ICON BOUNCE VISUAL GLITCH HAS BEEN FIXED!!
+Added a rare Santa startup that ONLY shows between the dates 12/16 to 12/31!
+The default menu theme is now a Christmas remix!
+Removed everything related to SB Engine
+Fixed camera pointer not showing in the Character Editor
+Noteskins now change to your default skin if you call "Change Character" and the character doesn't have a noteskin field
+Sustain lengths are now rounded instead of floored
+Fixed a bug where some users wouldn't be able to scroll in the Options menu. Additionally, scrolling between the option categories is now more centered.

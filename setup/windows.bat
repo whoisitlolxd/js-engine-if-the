@@ -4,7 +4,7 @@ cd ..
 echo Installing dependencies...
 echo This might take a few moments depending on your internet speed.
 @echo on
-haxelib install lime
+haxelib install lime 8.1.3
 haxelib install openfl
 haxelib install flixel 5.6.2
 haxelib install flixel-addons 3.2.3

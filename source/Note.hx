@@ -167,18 +167,14 @@ class Note extends FlxSprite
 
 	var changeSize:Bool = false;
 	private function set_texture(value:String):String {
+		if (value.length == 0) value = Paths.defaultSkin;
 		if (!pixelNote && texture != value)
 		{
 			changeSize = false;
 			if (!Paths.noteSkinFramesMap.exists(value)) Paths.initNote(4, value);
-			try {
-				if (frames != @:privateAccess Paths.noteSkinFramesMap.get(value)) frames = @:privateAccess Paths.noteSkinFramesMap.get(value);
-				if (animation != @:privateAccess Paths.noteSkinAnimsMap.get(value)) inline animation.copyFrom(@:privateAccess Paths.noteSkinAnimsMap.get(value));
-			}
-			catch (e) {
-				frames = @:privateAccess Paths.noteSkinFramesMap.get(Paths.defaultSkin);
-				animation.copyFrom(@:privateAccess Paths.noteSkinAnimsMap.get(Paths.defaultSkin));
-			}
+			if (frames != @:privateAccess Paths.noteSkinFramesMap.get(value)) frames = @:privateAccess Paths.noteSkinFramesMap.get(value);
+			if (animation != @:privateAccess Paths.noteSkinAnimsMap.get(value)) animation.copyFrom(@:privateAccess Paths.noteSkinAnimsMap.get(value));
+
 			if (!changeSize) 
 			{
 				changeSize = true;
@@ -195,15 +191,11 @@ class Note extends FlxSprite
 
 	public function defaultRGB()
 	{
-		var arr:Array<FlxColor> = ClientPrefs.arrowRGB[noteData];
-		if(pixelNote) arr = ClientPrefs.arrowRGBPixel[noteData];
+		noteColor = inline initializeGlobalRGBShader(noteData);
 
-		if (noteData > -1 && noteData <= arr.length)
-		{
-			rgbShader.r = arr[0];
-			rgbShader.g = arr[1];
-			rgbShader.b = arr[2];
-		}
+		rgbShader.r = noteColor.r;
+		rgbShader.g = noteColor.g;
+		rgbShader.b = noteColor.b;
 	}
 
 	private function set_noteType(value:String):String {
@@ -230,10 +222,8 @@ class Note extends FlxSprite
 		antialiasing = ClientPrefs.globalAntialiasing && !pixelNote;
 
 		if(noteData > -1) {
-			if (ClientPrefs.showNotes)
-			{
-				texture = Paths.defaultSkin;
-			}
+			if (ClientPrefs.showNotes) texture = Paths.defaultSkin;
+
 			if (ClientPrefs.enableColorShader)
 			{
 				try{ rgbShader = new RGBShaderReference(this, initializeGlobalRGBShader(noteData, this)); }
@@ -521,13 +511,16 @@ class Note extends FlxSprite
 		_lastValidChecked = '';
 	}
 
+	var noteColor:RGBPalette;
+	var superCoolColor = null;
+	var arr:Array<Int> = [255, 255, 255];
 	public function updateRGBColors()
 	{
 		if (rgbShader == null && useRGBShader) rgbShader = new RGBShaderReference(this, initializeGlobalRGBShader(noteData, this));
 		else switch(ClientPrefs.noteColorStyle)
 		{
 			case 'Rainbow':
-			var superCoolColor = new FlxColor(0xFFFF0000);
+			superCoolColor = new FlxColor(0xFFFF0000);
 			superCoolColor.hue = (strumTime / 5000 * 360) % 360;
 			rgbShader.r = superCoolColor;
 			rgbShader.g = FlxColor.WHITE;
@@ -539,7 +532,7 @@ class Note extends FlxSprite
 			case 'Char-Based':
 			if (PlayState.instance != null)
 			{
-				var arr:Array<Int> = CoolUtil.getHealthColors(doOppStuff ? PlayState.instance.dad : PlayState.instance.boyfriend);
+				arr = CoolUtil.getHealthColors(doOppStuff ? PlayState.instance.dad : PlayState.instance.boyfriend);
 				if (gfNote) arr = CoolUtil.getHealthColors(PlayState.instance.gf);
 				if (noteData > -1)
 				{
@@ -552,7 +545,7 @@ class Note extends FlxSprite
 			else defaultRGB();
 
 			default:
-
+			
 		}
 		if (noteType == 'Hurt Note' && rgbShader != null)
 		{
@@ -591,7 +584,7 @@ class Note extends FlxSprite
 			texture = chartNoteData.texture;
 			shouldCenterOffsets = false;
 		}
-		if ((chartNoteData.noteskin.length < 1 && chartNoteData.texture.length < 1) && chartNoteData.texture != Paths.defaultSkin)
+		if ((chartNoteData.noteskin.length < 1 && chartNoteData.texture.length < 1) && texture != Paths.defaultSkin)
 		{
 			texture = Paths.defaultSkin;
 			useRGBShader = ClientPrefs.enableColorShader;
@@ -627,7 +620,7 @@ class Note extends FlxSprite
 		if (ClientPrefs.enableColorShader && useRGBShader)
 		{
 			if (rgbShader == null) rgbShader = new RGBShaderReference(this, initializeGlobalRGBShader(noteData, this));
-			else updateRGBColors();
+			updateRGBColors();
 		}
 
 		if (noteType == 'Hurt Note' && !ClientPrefs.enableColorShader)
@@ -646,7 +639,7 @@ class Note extends FlxSprite
 			}
 		}
 
-		if (!PlayState.isPixelStage && !changeSize) 
+		if (!changeSize && !PlayState.isPixelStage) 
 		{
 			changeSize = true;
 			setGraphicSize(Std.int(width * 0.7));
@@ -663,7 +656,7 @@ class Note extends FlxSprite
 		else {
 			animation.play(colArray[noteData % 4] + 'Scroll');
 			if (!copyAngle) copyAngle = true;
-			offsetX = 0; //Juuuust in case we recycle a sustain note to a regular note
+			offsetX = 0; //Just in case we recycle a sustain note to a regular note
 			if (useRGBShader && shouldCenterOffsets)
 			{
 				centerOffsets();
@@ -676,12 +669,12 @@ class Note extends FlxSprite
 		if (!mustPress) 
 		{
 			visible = ClientPrefs.opponentStrums;
-			alpha = ClientPrefs.middleScroll ? ClientPrefs.oppNoteAlpha : 1;
+			alpha = multAlpha = ClientPrefs.middleScroll ? ClientPrefs.oppNoteAlpha : 1;
 		}
 		else
 		{
 			if (!visible) visible = true;
-			if (alpha != 1) alpha = 1;
+			for (i in [alpha, multAlpha]) if (i != 1) i = 1;
 		}
 		if (flipY) flipY = false;
 	}

@@ -459,7 +459,9 @@ class Paths
 			return file;
 		}
 		#end
-		return 'assets/${(library != null) ? '$library/' : ''}videos/$key.$VIDEO_EXT';
+		final path:String = ('assets/${(library != null) ? '$library/' : ''}videos/$key.$VIDEO_EXT');
+		// trace('Video Path before being passed to hxCodec: $path');
+		return path;
 	}
 	//Sound loading.
 	static public function sound(key:String, ?library:String):Sound

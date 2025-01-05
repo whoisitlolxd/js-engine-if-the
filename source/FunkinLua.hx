@@ -34,6 +34,7 @@ import flixel.util.FlxSave;
 import flixel.addons.transition.FlxTransitionableState;
 import flixel.system.FlxAssets.FlxShader;
 import Shaders;
+import openfl.filters.ShaderFilter;
 
 #if (!flash && sys)
 import flixel.addons.display.FlxRuntimeShader;
@@ -64,6 +65,10 @@ class FunkinLua {
 	public static var Function_Stop:Dynamic = "##PSYCHLUA_FUNCTIONSTOP";
 	public static var Function_Continue:Dynamic = "##PSYCHLUA_FUNCTIONCONTINUE";
 	public static var Function_StopLua:Dynamic = "##PSYCHLUA_FUNCTIONSTOPLUA";
+
+	#if (!flash && MODS_ALLOWED && sys)
+	private static var storedFilters:Map<String, ShaderFilter> = []; // for a few shader functions
+	#end
 
 	//public var errorHandler:String->Void;
 	#if LUA_ALLOWED
@@ -276,7 +281,7 @@ class FunkinLua {
 			#if (!flash && MODS_ALLOWED && sys)
 			if(!PlayState.instance.runtimeShaders.exists(shader) && !initLuaShader(shader))
 			{
-				luaTrace('setSpriteShader: Shader $shader is missing!', false, false, FlxColor.RED);
+				luaTrace('setSpriteShader: Shader $shader is missing! Make sure you\'ve initalized your shader first!', false, false, FlxColor.RED);
 				return false;
 			}
 
@@ -310,6 +315,61 @@ class FunkinLua {
 			return false;
 		});
 
+		// camera shaders
+		Lua_helper.add_callback(lua, "setCameraShader", function(cam:String, shader:String, ?index:String) {
+			final funk = PlayState.instance;
+			if (!ClientPrefs.shaders) return false;
+
+			if (index == null || index.length < 1)
+			    index = shader;
+
+			#if (!flash && MODS_ALLOWED && sys)
+			if (!funk.runtimeShaders.exists(shader) && !funk.initLuaShader(shader)) {
+			    luaTrace('addShaderToCam: Shader $shader is missing! Make sure you\'ve initalized your shader first!', false, false, FlxColor.RED);
+			    return false;
+			}
+
+            var arr:Array<String> = funk.runtimeShaders.get(shader);
+			// Both FlxGame and FlxCamera has a _filters array and a setFilters function
+			// We should maybe make an interface for that?
+            var camera = getCam(cam);
+            @:privateAccess {
+            if (camera._filters == null)
+                camera._filters = [];
+				final filter = new ShaderFilter(new FlxRuntimeShader(arr[0], arr[1]));
+				storedFilters.set(index, filter);
+				camera._filters.push(filter);
+            }
+            return true;
+			#else
+            luaTrace("addShaderToCam: Platform unsupported for Runtime Shaders!", false, false, FlxColor.RED);
+			#end
+			return false;
+		});
+
+		Lua_helper.add_callback(lua, "removeCameraShader", function(cam:String, shader:String) {
+			#if (!flash && MODS_ALLOWED && sys)
+			final camera = getCam(cam);
+			@:privateAccess {
+			if(!storedFilters.exists(shader)) {
+				luaTrace('removeCamShader: $shader does not exist!', false, false, FlxColor.YELLOW);
+				return false;
+			}
+
+			if (camera.filters == null) {
+				luaTrace('removeCamShader: camera $cam does not have any shaders!', false, false, FlxColor.YELLOW);
+				return false;
+			}
+
+			camera.filters.remove(storedFilters.get(shader));
+			storedFilters.remove(shader);
+			return true;
+			}
+			#else
+			luaTrace('removeCamShader: Platform unsupported for Runtime Shaders!', false, false, FlxColor.RED);
+			#end
+			return false;
+		});
 
 		Lua_helper.add_callback(lua, "getShaderBool", function(obj:String, prop:String) {
 			#if (!flash && MODS_ALLOWED && sys)
@@ -3227,13 +3287,20 @@ class FunkinLua {
 		return NORMAL;
 	}
 
-	function cameraFromString(cam:String):FlxCamera {
+	static function cameraFromString(cam:String):FlxCamera {
 		switch(cam.toLowerCase()) {
 			case 'camhud' | 'hud': return PlayState.instance.camHUD;
 			case 'camother' | 'other': return PlayState.instance.camOther;
 		}
 		return PlayState.instance.camGame;
 	}
+
+	// alias for above, helper function basically
+	public static function getCam(obj:String):Dynamic {
+        if (obj.toLowerCase().trim() == "global")
+		    return FlxG.game;
+	    return cameraFromString(obj);
+    }
 
 	public static function luaTrace(text:String, ignoreCheck:Bool = false, deprecated:Bool = false, color:FlxColor = FlxColor.WHITE) {
 		#if LUA_ALLOWED
@@ -3524,7 +3591,7 @@ class HScript
 		#if (!flash && sys)
 		interp.variables.set('FlxRuntimeShader', FlxRuntimeShader);
 		#end
-		interp.variables.set('ShaderFilter', openfl.filters.ShaderFilter);
+		interp.variables.set('ShaderFilter', ShaderFilter);
 		interp.variables.set('StringTools', StringTools);
 
 		interp.variables.set('setVar', function(name:String, value:Dynamic)

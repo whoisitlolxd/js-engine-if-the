@@ -291,6 +291,7 @@ class Character extends FlxSprite
 		}
 	}
 
+	var anim:String;
 	override function update(elapsed:Float)
 	{
 		if (ClientPrefs.ffmpegMode) elapsed = 1 / ClientPrefs.targetFPS;
@@ -307,7 +308,7 @@ class Character extends FlxSprite
 			heyTimer -= elapsed * PlayState.instance.playbackRate;
 			if(heyTimer <= 0)
 			{
-				var anim:String = getAnimationName();
+				anim = getAnimationName();
 				if(specialAnim && (anim == 'hey' || anim == 'cheer'))
 				{
 					specialAnim = false;
@@ -364,9 +365,9 @@ class Character extends FlxSprite
 			}
 		}
 
-		var name:String = getAnimationName();
-		if(isAnimationFinished() && animOffsets.exists('$name-loop'))
-			playAnim('$name-loop');
+		anim = getAnimationName();
+		if(isAnimationFinished() && animOffsets.exists('$anim-loop'))
+			playAnim('$anim-loop');
 
 		super.update(elapsed);
 	}
@@ -442,6 +443,7 @@ class Character extends FlxSprite
 		}
 	}
 
+	var daOffset = null;
 	public function playAnim(AnimName:String, Force:Bool = false, Reversed:Bool = false, Frame:Int = 0):Void
 	{
 		specialAnim = false;
@@ -454,12 +456,11 @@ class Character extends FlxSprite
 			atlas.anim.play(AnimName, Force, Reversed, Frame);
 			atlas.update(0);
 		}
-
 		_lastPlayedAnimation = AnimName;
 
-		final daOffset = animOffsets.get(AnimName);
-		if (animOffsets.exists(AnimName))
+		if (hasAnimation(AnimName))
 		{
+			daOffset = animOffsets.get(AnimName);
 			offset.set(daOffset[0], daOffset[1]);
 		}
 		else
@@ -468,18 +469,12 @@ class Character extends FlxSprite
 		if (curCharacter.startsWith('gf'))
 		{
 			if (AnimName == 'singLEFT')
-			{
 				danced = true;
-			}
 			else if (AnimName == 'singRIGHT')
-			{
 				danced = false;
-			}
 
 			if (AnimName == 'singUP' || AnimName == 'singDOWN')
-			{
 				danced = !danced;
-			}
 		}
 	}
 	
@@ -601,21 +596,15 @@ class Boyfriend extends Character
 		if (!debugMode && animation.curAnim != null)
 		{
 			if (animation.curAnim.name.startsWith('sing'))
-			{
 				holdTimer += elapsed;
-			}
 			else
 				holdTimer = 0;
 
 			if (animation.curAnim.name.endsWith('miss') && isAnimationFinished() && !debugMode)
-			{
 				playAnim('idle', true, false, 10);
-			}
 
 			if (animation.curAnim.name == 'firstDeath' && isAnimationFinished() && startedDeath)
-			{
 				playAnim('deathLoop');
-			}
 		}
 
 		super.update(elapsed);
